@@ -38,27 +38,24 @@ func main() {
 	// main wraps runMain() and ensures that the log gets flushed prior to exit.
 	// Use maxproxs as compression is CPU greedy.
 	runtime.GOMAXPROCS(runtime.NumCPU())
-	defer log.Flush()
-	setLogging()
+	defer logCleanup()
+	logging()
 	// Exit with return code from runMain()
 	rc := runMain()
 	os.Exit(rc)
 }
 
 func runMain() int {
+	log.Info("Baller starting with args ", os.Args[:])
 	// runMain parses the flags for logging, sets up CLI stuff for the supported
 	// subcommands and runs baller.
 	var err error
-
-	if err = baller.SetEnv(); err != nil {
+	err = ballr.SetEnv()
+	if err != nil {
 		fmt.Println("An error while processing baller Environment variables: ", err.Error())
 		return -1
 	}
 
-	// Logging setup
-	SetLogging()
-
-	log.Info.("Baller starting", "args", os.Args())
 	args := os.Args[1:]
 
 	// Get the command line args. We shortcut "--version" and "-v" to
@@ -85,10 +82,18 @@ func runMain() int {
 		log.Error("Baller terminating", "error", err.Error())
 	}
 
-	log.Info("Baller exiting", "exit code", exitCode)
+	log.Info("Baller exiting with exit code ", exitCode)
 	return exitCode
 }
 
+// logCleanup flushes logs prior to close
+func logCleanup() {
+	// Do I need to call package's flush log separately? I think log,Flush()
+	// should take care of it.
+	// TODO find out.
+	ballr.FlushLog()
+	log.Flush()
+}
 // logging sets application logging settings.
 func logging() error {
 	logger, err := log.LoggerFromConfigAsFile("seelog.xml")
@@ -98,7 +103,8 @@ func logging() error {
 
 	log.ReplaceLogger(logger)
 
-	// Add in custom settings.
+	// setup library loggers
+	ballr.UseLogger(logger)
 
 	return nil
 }

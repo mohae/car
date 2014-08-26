@@ -1,0 +1,9 @@
+# These can be overridden by using environment variables.
+default_compression = "bz2"
+default_destination = "./"
+default_datetime_prefix = "-"
+delete = false
+log = true
+append_datetime = true
+datetime_format = "2006-01-02Z070000"
+
