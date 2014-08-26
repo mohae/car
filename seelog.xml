@@ -1,0 +1,19 @@
+<seelog>
+    <outputs formatid="std:fast">
+        <console />
+	<filter levels="info, error, warning">
+	        <file path="/var/log/baller.log" formatid="debug-short"/>
+	</filter>
+	<filter levels="info" formatid="stdinfo">
+		<console />
+	</filter>
+	<filter levels="error, debug, trace" formatid="stderr">
+		<console />
+	</filter>
+    </outputs>
+    <formats> 
+        <format id = "detailed" format= "[%LEV] %UTCDate(time.RFC822) %RelFile->$FuncShort:$Line %Msg%n"/> 
+        <format id = "stdinfo" format = "%EscM(46)[%l]%EscM(49) %Msg\n%EscM(0)"> 
+	<format id = "stderr" format= "%EscM(46)[%l]%EscM(49) $RelFile-> %FuncShort:$Line $Msg\n%EscM(0)"/>
+    </formats> 
+</seelog>
