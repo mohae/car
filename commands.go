@@ -4,10 +4,10 @@ import (
 	"os"
 
 	"github.com/mitchellh/cli"
-	"github.com/mohae/baller/command"
+	"github.com/mohae/car/command"
 )
 
-// Commands is the mapping of all available baller commands.
+// Commands is the mapping of all available car commands.
 var Commands map[string]cli.CommandFactory
 
 func init() {
