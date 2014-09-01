@@ -5,15 +5,11 @@ import (
 	"github.com/spf13/viper"
 )
 
-// appName is a constant for the application name. It can be useful.
-const appName = "quine"
-
-func AppName() string {
-	return appName
-}
-
+// Not sure if this is needed for handling with ENVs.
+// It might be just keeping track of config variables, as constants. is enough.
 var Config config
 
+// config is the struct for holding the application config.
 type config struct {
 	// ConfigFile points to the application's default configuration file.
 	// This file can be in TOML, YAML, or JSON format.
@@ -31,6 +27,9 @@ type config struct {
 	// file for logging. Since seelog is used, a logging configuration file
 	// is used too.
 	DefaultLogFile string
+
+	// Application specific settings. set the defaults in initAppConfig()
+	App	map[string]interface{}
 )
 
 // Setting constants are used for application settings. Its namne is usually
@@ -55,7 +54,32 @@ func GetConfig() interface{} {
 // SetConfig loads the applications configuration file and sets the
 // application's defaults. The Default* variables have been merged with the
 // passed args at this point.
+//
+// SetConfig tries to be as dumb as possible.
+//
+// First, it checks to see if which of the application's settings already 
+// exist. For those that do exist, it notes that fact. Those values can only
+// ben overridden if the are flagged as settable and they are passed as 
+// supported command-line flags. The already set environment variables are
+// flagged as not settable.
+// 
+// Second, the hard-coded defaults are saved to their respective ENV variables.
+//
+// Third, the config file settings are read and saved to their respective ENV
+// variables, overwriting the application defaults, when applicable.
+//
+// Finally, the CLI flags are parsed and the relevant, supported flags are 
+// saved to their respective ENV variable.
+//
+// So Precedence, from high to low:
+//
+//   * CLI args and flags
+//   * Environment variable settings.
+//   * Application and logging config files
+//   * Application defaults.
+// 
 func SetConfig() {
+	// InitConfig save's the application defaults to the env variable.
 	// Configure viper
 	viper.SetConfigFile(ConfigFile)
 
@@ -73,9 +97,6 @@ func SetConfig() {
 	viper.SetDefault(Logging, Config.DefaultLogging)
 	viper.SetDefault(LogConfig, Config.DefaultLogFile)
 	viper.SetDefault(Config, Config.File)
-
-
-
 }
 
 
