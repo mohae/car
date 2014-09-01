@@ -10,7 +10,7 @@ import (
 )
 
 // Commands
-Commands map[string]cli.CommandFactory
+var Commands map[string]cli.CommandFactory
 
 // Set-up the commands for the application. Help and version doesn't need to bo
 // set-up because they are always available.
@@ -24,3 +24,5 @@ func init() {
 		},
 	}
 }
+
+
