@@ -25,3 +25,5 @@ _testmain.go
 *.out
 *.bak
 *.tmp
+*.swp
+*.swo

@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/mitchellh/cli"
-	"github.com/mohae/clitemplate/clitpl"
+	"github.com/mohae/quine/bobby"
 	"github.com/spf13/viper"
 )
 

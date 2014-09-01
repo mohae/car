@@ -1,29 +1,36 @@
-// clitemplate is the main package for clitemplate.
-package clitpl
+// bobby is the sample application. 
+package bobby
 
 import (
-	_ "errors"
-	_ "io"
-
 	"github.com/spf13/viper"
 )
 
-// AppName is a constant for the application name. It can be useful.
-var AppName = "clitemplate"
+// appName is a constant for the application name. It can be useful.
+const appName = "quine"
 
-var (
+func AppName() string {
+	return appName
+}
+
+var Config config
+
+type config struct {
 	// ConfigFile points to the application's default configuration file.
 	// This file can be in TOML, YAML, or JSON format.
-	ConfigFile = "config.toml"
+	File string
+
+	// ConfigSource are additional paths the application should search for
+	// the ConfigFile.
+	Source  []string
 
 	// DefaultLogging is the default setting for whether logging is enabled
 	// or not.
-	DefaultLogging = false
+	DefaultLogging bool
 
-	// DefaultLogConfig points to the application's default configuration
+	// DefaultLogFile points to the application's default configuration
 	// file for logging. Since seelog is used, a logging configuration file
 	// is used too.
-	DefaultLogConfig = "seelog.xml"
+	DefaultLogFile string
 )
 
 // Setting constants are used for application settings. Its namne is usually
@@ -35,10 +42,20 @@ const (
 	Lower     = "lower"
 )
 
-// InitConfig loads the applications configuration file and sets the
+func init() {
+	Config = &config{ConfigSource: []string{}}
+	Config.File = "config.json"
+	Config.DefaultLogFile = "seelog.xml"
+}
+
+func GetConfig() interface{} {
+	return Config
+}
+
+// SetConfig loads the applications configuration file and sets the
 // application's defaults. The Default* variables have been merged with the
 // passed args at this point.
-func InitConfig() {
+func SetConfig() {
 	// Configure viper
 	viper.SetConfigFile(ConfigFile)
 
@@ -53,8 +70,12 @@ func InitConfig() {
 
 	// viper is case insensitive, though it doesn't matter here since we
 	// are using constants. Just wanted to say...
-	viper.SetDefault(Logging, DefaultLogging)
-	viper.SetDefault(LogConfig, DefaultLogConfig)
-	viper.SetDefault(Config, ConfigFile)
+	viper.SetDefault(Logging, Config.DefaultLogging)
+	viper.SetDefault(LogConfig, Config.DefaultLogFile)
+	viper.SetDefault(Config, Config.File)
+
+
 
 }
+
+

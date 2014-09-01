@@ -1,19 +1,8 @@
 // Contains log related stuff.
-package clitpl
+package main
 
 import (
 	seelog "github.com/cihub/seelog"
-)
-
-// constants for loglevels
-const (
-	Trace    = "trace"
-	Debug    = "debug"
-	Info     = "info"
-	Warn     = "warn"
-	Error    = "error"
-	Critical = "critical"
-	Off      = "off"
 )
 
 var logger seelog.LoggerInterface

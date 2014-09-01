@@ -23,37 +23,17 @@ import (
 	"os"
 
 	log "github.com/cihub/seelog"
-	"github.com/mitchellh/cli"
+	"github.com/mohae/cli"
+	"github.com/mohae/quine/bobby"
 )
 
-// name is the name of the application.
-var name string
 
-// version is the version of the application
-var version = Version()
-
-type appInfo struct {
-	// Name
-	Name	string
-	
-	// Version
-	Version string
-
-	// Commands
-	Commands map[string]cli.CommandFactory
-	// Args
-	Args []string
+func init() {
+	cli.Name(bobby.Name())
 }
-
-var AppInfo = NewAppInfo()
-
-func NewAppInfo() *appInfo {
-	inf := &appInfo{Name: name, Version: version, Commands}
-	return inf
-}
-
 // This is modeled on mitchellh's realmain wrapper
 func main() {
+	runtime.GOMAXPROCS(runtime.NumCPU())
 	os.Exit(realMain())
 }
 
@@ -63,16 +43,29 @@ func main() {
 // must go to stdout until then.
 func realMain() int {
 	defer log.Flush()
-	defer clitpl.FlushLog()
+	defer bobby.FlushLog()
 
-	// Get the command line args. We shortcut "--version" and "-v" to
-	// just show the version.
+	// Set the application config
+	err := bobby.SetConfig()
+	if err != nil {
+		fmt.Println(err.Error))
+		return 1
+	}
+
+	err := SetLogging()
+	if err != nil {
+		fmt.Println(err.Error())
+		return 1
+	{
+
+	// Get the command line args.
 	appInfo.Args := os.Args[1:]
 
 	// Setup the args, Commands, and Help info.
 	cli := &cli.CLI{
 		AppInfo: appInfo,
-		HelpFunc: cli.BasicHelpFunc("clitemplate"),
+		HelpFunc: cli.BasicHelpFunc(),
+		VersionFunc: cli.BasicVersionFun(),
 	}
 
 	// Run the passed command, recieve back a message and error object.
@@ -82,12 +75,7 @@ func realMain() int {
 		return 1
 	}
 
-	// Return the message.
+	// Return the exitcode.
 	return exitCode
 }
 
-// Version returns the version number.
-func Version() string {
-	var v string
-	return v
-}

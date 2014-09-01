@@ -1,3 +1,0 @@
-log = false
-logconfig = "seelog.xml"
-loglevel = "info"

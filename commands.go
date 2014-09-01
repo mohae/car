@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/mitchellh/cli"
-	"github.com/mohae/clitemplate/command"
+	"github.com/mohae/quine/command"
 )
 
 // Commands
