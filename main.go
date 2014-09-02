@@ -29,10 +29,6 @@ import (
 	"github.com/mohae/quine/bobby"
 )
 
-// Name is the name of the application
-var Name string = "quine"
-var configFile string = "config.json"
-
 // This is modeled on mitchellh's realmain wrapper
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
@@ -47,19 +43,13 @@ func realMain() int {
 	defer log.Flush()
 	defer bobby.FlushLog()
 
-	// Set the application config
-	err := contour.SetConfigFile(configFile)
+	err = SetConfig() 
 	if err != nil {
 		fmt.Println(err)
 		return 1
 	}
 
-	err = contour.LoadConfigFile() 
-	if err != nil {
-		fmt.Println(err)
-		return 1
-	}
-
+		
 /*
 	// Get the command line args.
 	Args := os.Args[1:]
