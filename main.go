@@ -21,16 +21,18 @@ import (
 	"fmt"
 	_ "io/ioutil"
 	"os"
+	"runtime"
 
 	log "github.com/cihub/seelog"
-	"github.com/mohae/cli"
+	_ "github.com/mohae/cli"
+	"github.com/mohae/contour"
 	"github.com/mohae/quine/bobby"
 )
 
+// Name is the name of the application
+var Name string = "quine"
+var configFile string = "config.json"
 
-func init() {
-	cli.Name(bobby.Name())
-}
 // This is modeled on mitchellh's realmain wrapper
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
@@ -46,20 +48,21 @@ func realMain() int {
 	defer bobby.FlushLog()
 
 	// Set the application config
-	err := bobby.SetConfig()
+	err := contour.SetConfigFile(configFile)
 	if err != nil {
-		fmt.Println(err.Error))
+		fmt.Println(err)
 		return 1
 	}
 
-	err := SetLogging()
+	err = contour.LoadConfigFile() 
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Println(err)
 		return 1
-	{
+	}
 
+/*
 	// Get the command line args.
-	appInfo.Args := os.Args[1:]
+	Args := os.Args[1:]
 
 	// Setup the args, Commands, and Help info.
 	cli := &cli.CLI{
@@ -77,5 +80,7 @@ func realMain() int {
 
 	// Return the exitcode.
 	return exitCode
+*/
+	return 1
 }
 

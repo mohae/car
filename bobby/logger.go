@@ -2,6 +2,9 @@
 package bobby 
 
 import (
+	"errors"
+	"io"
+
 	seelog "github.com/cihub/seelog"
 )
 
@@ -29,8 +32,8 @@ func SetLogWriter(writer io.Writer) error {
 		return errors.New("Nil writer")
 	}
 
-	newLogger, err := seelog.LoggerFromWriterWithMinLevel(writer, seelog.Tracelvl)
-	if err != nil
+	newLogger, err := seelog.LoggerFromWriterWithMinLevel(writer, seelog.TraceLvl)
+	if err != nil {
 		return err
 	}
 

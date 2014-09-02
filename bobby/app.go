@@ -1,10 +1,6 @@
 // bobby is the sample application. 
 package bobby
 
-import (
-	"github.com/spf13/viper"
-)
-
 // Application specific constants. For libraries to be able to either be used
 // by an interface harness or by other applications, making these into
 // variables that are settable might be better for the later use case.
@@ -24,6 +20,6 @@ func AppName() string {
 	return appName
 }
 
-func AppCode() string (
+func AppCode() string {
 	return appCode
-)
+}
