@@ -25,6 +25,7 @@ import (
 
 	log "github.com/cihub/seelog"
 	"github.com/mohae/cli"
+	"github.com/mohae/contour"
 	"github.com/mohae/quine/bobby"
 )
 
@@ -39,8 +40,9 @@ func main() {
 // enable/disable output, alter it, or alter its output locations. Everything
 // must go to stdout until then.
 func realMain() int {
-	defer log.Flush()
 	defer bobby.FlushLog()
+	defer contour.FlushLog()
+	defer log.Flush()
 
 	// Initialize the applications's defaults
 	err := InitConfig()

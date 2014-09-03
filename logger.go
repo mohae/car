@@ -2,10 +2,11 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	log "github.com/cihub/seelog"
-	utils "github.com/mohae/utilitybelt"
+	_ "github.com/mohae/utilitybelt"
 )
 
 var logger log.LoggerInterface
@@ -44,12 +45,15 @@ func FlushLog() {
 //	debug enabling will only enable logging output to stdout using the desired level.
 func SetLogging() error {
 	// If it can't be interpreted as a bool, assume its false.
+/*
 	b := os.Getenv(AppCode + EnvLogging)
+	fmt.Printf("SetLogging: %v\n", b)
 	if !utils.StringIsBool(b) {
 		return nil
 	}
-	
+*/	
 	configFilename := os.Getenv(AppCode + EnvLogConfigFilename)
+	fmt.Printf("ConfigFilename: %v\n", configFilename)
 	if configFilename == "" {
 		configFilename = LogConfigFilename		
 	}
@@ -60,6 +64,8 @@ func SetLogging() error {
 	}
 	
 	log.ReplaceLogger(logger)
+	SetAppLogging()
+
 	return nil
 }
 

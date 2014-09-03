@@ -4,6 +4,7 @@
 package main
 
 import (
+	"github.com/mohae/quine/bobby"
 	"github.com/mohae/contour"
 )
 
@@ -103,3 +104,10 @@ func InitConfig() error {
 	return nil
 }
 
+// SetAppLogging sets the logger for package loggers. Any packages that you
+// are using that supports logging, configure them here. 
+// This uses seelog.
+func SetAppLogging() {
+	contour.UseLogger(logger)
+	bobby.UseLogger(logger)
+}
