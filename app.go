@@ -17,8 +17,8 @@ var AppCode string
 // ConfigFilename is the configuration file for the application.
 var ConfigFilename string = "config.json"
 
-// LogFilename is the name for the logging configuration file.
-var LogFilename string = "seelog.xml"
+// LogConfigFilename is the name for the logging configuration file.
+var LogConfigFilename string = "seelog.xml"
 
 // Logging: whether or not application logging is enabled by default.
 // Initialize to true if it should automatically be enabled.
@@ -44,7 +44,7 @@ func init() {
 	// ways to make them idempotent. Below is an example for string.
 	contour.SetIdempotentString("appname", Name) 
 	contour.SetIdemString("configFile", ConfigFilename) 
-	contour.SetIdemString("logconfig", LogFilename)
+	contour.SetIdemString("logconfig", LogConfigFilename)
 
 	// Set*Flag allows you to add settings that are also exposed as
 	// command-line flags. Default implicit values to settings:

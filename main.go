@@ -50,9 +50,11 @@ func realMain() int {
 
 	// Setup the args, Commands, and Help info.
 	cli := &cli.CLI{
+		Name: Name,
+		Version: Version,
 		Args: args,
 		HelpFunc: cli.BasicHelpFunc(),
-//		VersionFunc: cli.BasicVersionFun(),
+		VersionFunc: cli.BasicVersionFunc(),
 	}
 
 	// Run the passed command, recieve back a message and error object.
