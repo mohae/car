@@ -24,8 +24,7 @@ import (
 	"runtime"
 
 	log "github.com/cihub/seelog"
-	_ "github.com/mohae/cli"
-	"github.com/mohae/contour"
+	"github.com/mohae/cli"
 	"github.com/mohae/quine/bobby"
 )
 
@@ -43,22 +42,17 @@ func realMain() int {
 	defer log.Flush()
 	defer bobby.FlushLog()
 
-	err = SetConfig() 
-	if err != nil {
-		fmt.Println(err)
-		return 1
-	}
+	// Initialize the applications's defaults
+	InitConfig()
 
-		
-/*
 	// Get the command line args.
-	Args := os.Args[1:]
+	args := os.Args[1:]
 
 	// Setup the args, Commands, and Help info.
 	cli := &cli.CLI{
-		AppInfo: appInfo,
+		Args: args,
 		HelpFunc: cli.BasicHelpFunc(),
-		VersionFunc: cli.BasicVersionFun(),
+//		VersionFunc: cli.BasicVersionFun(),
 	}
 
 	// Run the passed command, recieve back a message and error object.
@@ -70,7 +64,7 @@ func realMain() int {
 
 	// Return the exitcode.
 	return exitCode
-*/
+
 	return 1
 }
 
