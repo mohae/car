@@ -5,7 +5,7 @@ package main
 import (
 	"os"
 
-	"github.com/mitchellh/cli"
+	"github.com/mohae/cli"
 	"github.com/mohae/quine/command"
 )
 

@@ -7,7 +7,7 @@ import (
 
 	"github.com/mohae/cli"
 //	"github.com/mohae/contour"
-//	"github.com/mohae/quine/bobby"
+	"github.com/mohae/quine/bobby"
 )
 
 // Hello command specific filter.
@@ -46,7 +46,7 @@ with one example flag.
 // Run runs the hello command; the args are a variadic list of words
 // to append to hello.
 func (c *HelloCommand) Run(args []string) int {
-
+	bobby.Hello(args...)
 	c.UI.Output("quine Hello is complete")
 	return 0
 }

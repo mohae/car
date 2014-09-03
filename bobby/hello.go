@@ -27,10 +27,36 @@ func Hello(words ...string) (string, error) {
 	}
 
 	// Print out the current settings.
-	fmt.Printf("config: %s\n", contour.GetString("configfilename"))
-	fmt.Printf("lower: %v\n", contour.GetBool("lower"))
-	fmt.Printf("logging: %v\n", contour.GetBool("logging"))
-	fmt.Printf("logconfig: %s\n", contour.GetString("logconfigfilename"))
+//	var b bool
+
+	v, err := contour.GetString("configfilename")
+	if err != nil {
+		logger.Critical("configfilename not found in AppConfig")
+	} else {
+		fmt.Printf("config: %s\n", v)
+	}
+/*
+	b, err = contour.GetBool("lower")
+	if err != nil {
+		logger.Critical("lower not found in AppConfig")
+	} else {
+		fmt.Printf("lower: %v\n", b)
+	}
+
+
+	b, err = contour.GetBool("logging")
+	if err != nil {
+		logger.Critical("logging not found in AppConfig")
+	} else {
+		fmt.Printf("logging: %v\n", b)
+	}
+*/
+	v, err = contour.GetString("logconfigfilename")
+	if err != nil {
+		logger.Critical("logconfigfilename not found in AppConfig")
+	} else {
+		fmt.Printf("logconfigfilename: %s\n", v)
+	}
 
         fmt.Printf("config: %s\n", os.Getenv("configfilename"))
         fmt.Printf("lower: %v\n", os.Getenv("lower"))
