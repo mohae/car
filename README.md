@@ -17,10 +17,9 @@ Quine is both a CLI application template and a minimalist example application. Q
 
 It supports:
 * Go Flags
-* Posix style flags
 * sub-command aliases
 * application defaults
-* application configuration file in TOML, YAML, or JSON
+* application configuration file in TOML or JSON
 * environment variable support
 * logging, defaults to off
 
