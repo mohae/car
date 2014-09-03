@@ -35,6 +35,13 @@ var LogConfigFilename string = "seelog.xml"
 // Initialize to true if it should automatically be enabled.
 var Logging bool
 
+// Environment variables
+var (
+	EnvConfigFilename string = "configfilename"
+	EnvLogConfigFilename string = "logconfigfilename"
+	EnvLogging string = "logging"
+)
+
 // Config a pointer to the AppConfig. The AppConfig can either be updated by
 // calling the contour function or the Config's method, both of which will be
 // the same other than being a function or method. 
@@ -54,8 +61,8 @@ func init() {
 	// For convenience, each supported datatype can be called either of two
 	// ways to make them idempotent. Below is an example for string.
 	contour.SetIdempotentString("appname", Name) 
-	contour.SetIdemString("configFile", ConfigFilename) 
-	contour.SetIdemString("logconfig", LogConfigFilename)
+	contour.SetIdemString(EnvConfigFilename, ConfigFilename) 
+	contour.SetIdemString(EnvLogConfigFilename, LogConfigFilename)
 
 	// Set*Flag allows you to add settings that are also exposed as
 	// command-line flags. Default implicit values to settings:
@@ -63,17 +70,17 @@ func init() {
 	//	IsIdempotent = false
 	// The shortcode, 2nd parameter, can be left as an empty string, ""
 	// if this flag doesn't support a shortcode.
-	contour.SetBoolFlag("logging", "l", Logging) 
+	contour.SetBoolFlag(EnvLogging, "l", Logging) 
 
 	// AddSettingAlias sets an alias for the setting.
-	contour.AddSettingAlias("logging", "logenabled")
+	contour.AddSettingAlias(EnvLogging, "logenabled")
 
 	InitApp()
 }
 
 // InitApp is the best place to add custom defaults for your application,
 func InitApp() {
-	contour.SetBoolFlag("lower", "", Logging)
+	contour.SetBoolFlag("lower", "", false)
 }
 
 // InitConfig initialized the application's configuration. When the config is

@@ -43,7 +43,18 @@ func realMain() int {
 	defer bobby.FlushLog()
 
 	// Initialize the applications's defaults
-	InitConfig()
+	err := InitConfig()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error configuring %s: %s\n", Name, err.Error())
+		return 1
+	}
+
+	// Set the Logging
+	err = SetLogging()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error setting up logging for %s: %s\n", Name, err.Error())
+		return 1
+	}
 
 	// Get the command line args.
 	args := os.Args[1:]

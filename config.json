@@ -1,4 +1,4 @@
 {
-	"logging":  false,
+	"logging":  true,
 	"logconfig": "seelog.xml"
 }
