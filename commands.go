@@ -22,6 +22,15 @@ func init() {
 				UI: ui,
 			}, nil
 		},
+		"version": func() (cli.Command, error) {
+			return &command.VersionCommand{
+				Name: Name,
+				Revision: GitCommit,
+				Version: Version,
+				VersionPrerelease: VersionPrerelease,
+				UI: ui,
+			}, nil
+		},
 	}
 }
 

@@ -54,7 +54,6 @@ func realMain() int {
 		Version: Version,
 		Args: args,
 		HelpFunc: cli.BasicHelpFunc(),
-		VersionFunc: cli.BasicVersionFunc(),
 	}
 
 	// Run the passed command, recieve back a message and error object.
