@@ -26,6 +26,8 @@ func Hello(words ...string) (string, error) {
 		h = strings.ToLower(h)
 	}
 
+	fmt.Println(h)
+
 	// Print out the current settings.
 //	var b bool
 
