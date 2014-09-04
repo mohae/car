@@ -56,32 +56,47 @@ var Config *contour.Config = contour.GetAppConfig()
 // set-up the application defaults and let contour know about the app.
 // Setting also saves them to their relative environment variable.
 func init() {
-	// Idempotent settings are ones that do one change once they are set.
-	// Any subsequent attempts to set an idempotent's setting will not 
-	// result in that value being updated.
-	// For convenience, each supported datatype can be called either of two
-	// ways to make them idempotent. Below is an example for string.
-	contour.SetIdempotentString("appname", Name) 
-	contour.SetIdemString(EnvConfigFilename, ConfigFilename) 
-	contour.SetIdemString(EnvLogConfigFilename, LogConfigFilename)
+	// Calling Register* saves the configuration setting information
+	// without writing it to its respective environment variable. This
+	// allows any already set environment variables to override non-core
+	// vars.
+	//
+	// Only settings that have been initialized are recognized by contour.
+
+	// The config filename is handled differently, calling this function
+	// also sets the ConfigFile format automatically,based on the
+	// extension, if it can be determined. If it cannot, the extension is
+	// left blank and must be set. 
+	contour.RegisterConfigFilename(EnvConfigFilename, ConfigFilename)
+
+	//// Alternative way, manually setting the values
+	//contour.RegisterString(EnvConfigFilename, ConfigFilename) 
+	//contour.RegisterString(EnvConfigExt, "json") 
+
+	// Core settings are only settable by the application, and once set are
+	// immutable
+	contour.RegisterCoreString("appname", Name) 
 
 	// Set*Flag allows you to add settings that are also exposed as
 	// command-line flags. Default implicit values to settings:
 	//	IsFlag = true
 	//	IsIdempotent = false
+	//	IsCore = false
 	// The shortcode, 2nd parameter, can be left as an empty string, ""
 	// if this flag doesn't support a shortcode.
-	contour.SetBoolFlag(EnvLogging, "l", Logging) 
+	contour.RegisterBoolFlag(EnvLogging, Logging, "l") 
 
 	// AddSettingAlias sets an alias for the setting.
 	contour.AddSettingAlias(EnvLogging, "logenabled")
 
 	InitApp()
+
+	// Now that the configuration in
 }
 
 // InitApp is the best place to add custom defaults for your application,
 func InitApp() {
-	contour.SetBoolFlag("lower", "", false)
+	contour.RegisterBoolFlag("lower", false, "")
 }
 
 // InitConfig initialized the application's configuration. When the config is
@@ -91,12 +106,16 @@ func InitApp() {
 //
 // After this, only overrides can occur via command flags.
 func InitConfig() error {
-	// Load the already existing environment variables. Only updateable
-	// settings are set from these values.
-	contour.SetFromEnv()
-
-	// Load the config file
-	err := contour.SetFromConfigFile()
+	// Set config:
+	//    Checks environment variables for settings, follows update rules.
+	//    Retrieves config file and applies those settings, if and where
+	//      applicable.
+	//    Writes the resulting configuration settings to their env vars.
+	//  After set config, only command flags can override the settings.
+	//  If this is an interactive application, preference changes would
+	//    also override certain settings. It may necessitate an additional
+	//    flag or two.
+	err := contour.SetConfig()
 	if err != nil {
 		return err
 	}
