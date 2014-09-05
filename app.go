@@ -77,6 +77,15 @@ func init() {
 	// immutable
 	contour.RegisterCoreString("appname", Name) 
 
+	// Immutable settings are only settable once. If its value isn't set
+	// during registration, it can be set at a later time. Once it is set,
+	// immutable values cannot be changed. Because of this, and the fact
+	// that initialization causes bools to be set, bools cannot be made
+	// immutable.
+
+	// This is set in the config file.
+	contour.RegisterImmutableString(EnvLogConfigFilename, "")
+	
 	// Set*Flag allows you to add settings that are also exposed as
 	// command-line flags. Default implicit values to settings:
 	//	IsFlag = true
@@ -115,12 +124,7 @@ func InitConfig() error {
 	//  If this is an interactive application, preference changes would
 	//    also override certain settings. It may necessitate an additional
 	//    flag or two.
-	err := contour.SetConfig()
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return contour.SetConfig()
 }
 
 // SetAppLogging sets the logger for package loggers. Any packages that you

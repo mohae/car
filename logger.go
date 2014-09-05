@@ -2,7 +2,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	log "github.com/cihub/seelog"
@@ -44,16 +43,7 @@ func FlushLog() {
 //		or tmp gets discarded (if logging disabled)
 //	debug enabling will only enable logging output to stdout using the desired level.
 func SetLogging() error {
-	// If it can't be interpreted as a bool, assume its false.
-/*
-	b := os.Getenv(AppCode + EnvLogging)
-	fmt.Printf("SetLogging: %v\n", b)
-	if !utils.StringIsBool(b) {
-		return nil
-	}
-*/	
 	configFilename := os.Getenv(AppCode + EnvLogConfigFilename)
-	fmt.Printf("ConfigFilename: %v\n", configFilename)
 	if configFilename == "" {
 		configFilename = LogConfigFilename		
 	}

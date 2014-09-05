@@ -1,7 +1,6 @@
 package command
 
 import (
-	_"fmt"
 	"flag"
 	"strings"
 
