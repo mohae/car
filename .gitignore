@@ -27,3 +27,5 @@ _testmain.go
 *.tmp
 *.swp
 *.swo
+*.log
+quine
