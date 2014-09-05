@@ -60,9 +60,13 @@ func (c *HelloCommand) Run(args []string) int {
 	}
 
 	// Run the command in the package.
-	bobby.Hello(filteredArgs...)
+	message, err := bobby.Hello(filteredArgs...)
+	if err != nil {
+		c.UI.Error(err.Error())
+		return 1
+	}
 
-	c.UI.Output("quine Hello is complete")
+	c.UI.Output(message)
 	return 0
 }
 

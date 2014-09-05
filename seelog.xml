@@ -15,8 +15,8 @@
     </outputs>
     <formats> 
         <format id = "detailed" format= "%Date %Time [%Level] %RelFile-%FuncShort:%Line: %Msg%n" /> 
-        <format id = "stdinfo" format = "%Date %Time %EscM(32)[%Level]%EscM(39) %Msg%EscM(0)" /> 
-	<format id = "stderr" format= "%Date %Time %EscM(31)[%Level]%EscM(39) %EscM(31)%RelFile-%FuncShort(%Line):%EscM(39) %Msg%EscM(0)" />
-	<format id = "stddetailed" format= "%Date %Time %EscM(33)[%Level]%EscM(39) %EscM(33)%RelFile-%FuncShort(%Line):%EscM(39) %Msg%EscM(0)" />
+        <format id = "stdinfo" format = "%Date %Time %EscM(32)[%Level]%EscM(39) %Msg%EscM(0)\n" /> 
+	<format id = "stderr" format= "%Date %Time %EscM(31)[%Level]%EscM(39) %EscM(31)%RelFile-%FuncShort(%Line):%EscM(39) %Msg%EscM(0)\n" />
+	<format id = "stddetailed" format= "%Date %Time %EscM(33)[%Level]%EscM(39) %EscM(33)%RelFile-%FuncShort(%Line):%EscM(39) %Msg%EscM(0)\n" />
     </formats> 
 </seelog>

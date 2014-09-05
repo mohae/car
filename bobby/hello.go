@@ -20,11 +20,14 @@ func Hello(words ...string) (string, error) {
 		h += " " + word
 	}
 
+	// TODO: This should really be fed through strconv.FormatBool
 	if os.Getenv("lower") == "true" {
 		h = strings.ToLower(h)
 	}
 
 	fmt.Println(h)
-	
-	return h, nil
+	logger.Infof("output: %s", h)
+
+	message := fmt.Sprintf("Hello completed.\nLower used: %b.\nPhrase used for Hello: %s.",  os.Getenv("lower"), h)   
+	return message, nil
 }
