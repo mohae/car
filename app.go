@@ -93,7 +93,7 @@ func init() {
 	//	IsCore = false
 	// The shortcode, 2nd parameter, can be left as an empty string, ""
 	// if this flag doesn't support a shortcode.
-	contour.RegisterBoolFlag(EnvLogging, Logging, "l") 
+	contour.RegisterBoolFlag(EnvLogging, Logging, "") 
 
 	// AddSettingAlias sets an alias for the setting.
 	contour.AddSettingAlias(EnvLogging, "logenabled")
