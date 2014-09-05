@@ -1,12 +1,12 @@
 package command
 
 import (
-	_ "flag"
-	_ "fmt"
+	_"fmt"
+	"flag"
 	"strings"
 
 	"github.com/mohae/cli"
-//	"github.com/mohae/contour"
+	"github.com/mohae/contour"
 	"github.com/mohae/quine/bobby"
 )
 
@@ -46,7 +46,23 @@ with one example flag.
 // Run runs the hello command; the args are a variadic list of words
 // to append to hello.
 func (c *HelloCommand) Run(args []string) int {
-	bobby.Hello(args...)
+	// set up the command flags
+	cmdFlags := flag.NewFlagSet("run", flag.ContinueOnError)
+	cmdFlags.Usage = func() {
+		c.UI.Output(c.Help())
+	}
+
+	// Filter the flags from the args and update the config with them.
+	// The args remaining after being filtered are returned.
+	filteredArgs, err := contour.FilterArgs(cmdFlags, args)
+	if err != nil {
+		c.UI.Error(err.Error())
+		return 1
+	}
+
+	// Run the command in the package.
+	bobby.Hello(filteredArgs...)
+
 	c.UI.Output("quine Hello is complete")
 	return 0
 }
