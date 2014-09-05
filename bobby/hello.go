@@ -28,6 +28,6 @@ func Hello(words ...string) (string, error) {
 	fmt.Println(h)
 	logger.Infof("output: %s", h)
 
-	message := fmt.Sprintf("Hello completed.\nLower used: %b.\nPhrase used for Hello: %s.",  os.Getenv("lower"), h)   
+	message := fmt.Sprintf("Hello completed.\nLower used: %v.\nPhrase used for Hello: %s.\n",  os.Getenv("lower"), h)   
 	return message, nil
 }

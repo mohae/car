@@ -50,7 +50,7 @@ func realMain() int {
 		fmt.Fprintf(os.Stderr, "Error configuring %s: %s\n", Name, err.Error())
 		return 1
 	}
-
+	
 	// Set the Logging
 	err = SetLogging()
 	if err != nil {
@@ -79,7 +79,5 @@ func realMain() int {
 
 	// Return the exitcode.
 	return exitCode
-
-	return 1
 }
 
