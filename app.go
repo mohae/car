@@ -127,10 +127,19 @@ func InitConfig() error {
 	return contour.SetConfig()
 }
 
-// SetAppLogging sets the logger for package loggers. Any packages that you
-// are using that supports logging, configure them here. 
+// SetAppLogging sets the logger for package loggers and allow for custom-
+// ization of the applications logging. This is where app specific code for
+// setting up the application's logging should be.
+// 
+// SetAppLogging assumes that logging is enabled if it has been called as its
+// caller should be SetLogging(). If you are going to call this from elsewhere,
+// first make sure that logging is enabled.
+//
 // This uses seelog.
-func SetAppLogging() {
+func SetAppLogging() error {
+
 	contour.UseLogger(logger)
 	bobby.UseLogger(logger)
+
+	return nil
 }

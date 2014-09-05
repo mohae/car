@@ -2,10 +2,8 @@
 package main
 
 import (
-	"os"
-
 	log "github.com/cihub/seelog"
-	_ "github.com/mohae/utilitybelt"
+	"github.com/mohae/contour"
 )
 
 var logger log.LoggerInterface
@@ -43,20 +41,30 @@ func FlushLog() {
 //		or tmp gets discarded (if logging disabled)
 //	debug enabling will only enable logging output to stdout using the desired level.
 func SetLogging() error {
-	configFilename := os.Getenv(AppCode + EnvLogConfigFilename)
-	if configFilename == "" {
-		configFilename = LogConfigFilename		
+	b, err := contour.GetBool(EnvLogging)
+	if err != nil {
+		return err
 	}
 
-	logger, err := log.LoggerFromConfigAsFile(configFilename)
+	// Don't do anything if logging isn't enabled.
+	if !b {
+		return nil
+	}
+
+	var logConfigFilename string
+	logConfigFilename, err = contour.GetString(EnvLogConfigFilename)
+	if err != nil {
+		return err
+	}
+
+	logger, err = log.LoggerFromConfigAsFile(logConfigFilename)
 	if err != nil {
 		return err
 	}
 	
 	log.ReplaceLogger(logger)
-	SetAppLogging()
-
-	return nil
+	err = SetAppLogging()
+	return err
 }
 
 // also be written to temp, until it is determined if logging is enabled or not.
