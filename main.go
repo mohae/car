@@ -18,66 +18,12 @@
 package main
 
 import (
-	"fmt"
-	_ "io/ioutil"
 	"os"
 	"runtime"
-
-	log "github.com/cihub/seelog"
-	"github.com/mohae/cli"
-	"github.com/mohae/contour"
-	"github.com/mohae/quine/bobby"
 )
 
 // This is modeled on mitchellh's realmain wrapper
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
-	os.Exit(realMain())
+	os.Exit(appMain())
 }
-
-// realMain, it's the real main, yo
-// no logging is done until the flags are processed, since the flags could
-// enable/disable output, alter it, or alter its output locations. Everything
-// must go to stdout until then.
-func realMain() int {
-	defer bobby.FlushLog()
-	defer contour.FlushLog()
-	defer log.Flush()
-
-	// Initialize the applications's defaults
-	err := InitConfig()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error configuring %s: %s\n", Name, err.Error())
-		return 1
-	}
-	
-	// Set the Logging
-	err = SetLogging()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error setting up logging for %s: %s\n", Name, err.Error())
-		return 1
-	}
-
-	// Get the command line args.
-	args := os.Args[1:]
-
-	// Setup the args, Commands, and Help info.
-	cli := &cli.CLI{
-		Name: Name,
-		Version: Version,
-		Commands: Commands,
-		Args: args,
-		HelpFunc: cli.BasicHelpFunc(),
-	}
-
-	// Run the passed command, recieve back a message and error object.
-	exitCode, err := cli.Run()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error executing CLI: %s\n", err.Error())
-		return 1
-	}
-
-	// Return the exitcode.
-	return exitCode
-}
-
