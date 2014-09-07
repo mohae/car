@@ -10,7 +10,7 @@ import (
 	log "github.com/cihub/seelog"
 	"github.com/mohae/cli"
 	"github.com/mohae/contour"
-	"github.com/mohae/quine/bobby")
+	"github.com/mohae/quine/cmd")
 
 // Name is the name of the application
 var Name string = "quine"
@@ -143,20 +143,20 @@ func InitConfig() error {
 // This uses seelog.
 func SetAppLogging() error {
 	contour.UseLogger(logger)
-	bobby.UseLogger(logger)
+	cmd.UseLogger(logger)
 	return nil
 }
 
 // appMain, is the actual main for the application. This keeps all changes
 // needed for a new application to one file in the main application directory.
 // In addition to this, only commands/ needs to be modified, adding the app's
-// commands and any handler codes for those commands, like the 'bobby' package.
+// commands and any handler codes for those commands, like the 'cmd' package.
 //
 // No logging is done until the flags are processed, since the flags could
 // enable/disable output, alter it, or alter its output locations. Everything
 // must go to stdout until then.
 func appMain() int {
-	defer bobby.FlushLog()
+	defer cmd.FlushLog()
 	defer contour.FlushLog()
 	defer log.Flush()
 
@@ -196,4 +196,3 @@ func appMain() int {
 	// Return the exitcode.
 	return exitCode
 }
-

@@ -6,7 +6,7 @@ import (
 
 	"github.com/mohae/cli"
 	"github.com/mohae/contour"
-	"github.com/mohae/quine/bobby"
+	"github.com/mohae/quine/cmd"
 )
 
 // Hello command specific filter.
@@ -60,7 +60,7 @@ func (c *HelloCommand) Run(args []string) int {
 	}
 
 	// Run the command in the package.
-	message, err := bobby.Hello(filteredArgs...)
+	message, err := cmd.Hello(filteredArgs...)
 	if err != nil {
 		c.UI.Error(err.Error())
 		return 1
