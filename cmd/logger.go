@@ -1,5 +1,5 @@
 // Contains log related stuff.
-package cmd
+package cmd 
 
 import (
 	"errors"
@@ -23,10 +23,11 @@ func DisableLog() {
 // UseLoggers uses a specified seelog.LoggerInterface to output package to log.
 func UseLogger(newLogger seelog.LoggerInterface) {
 	logger = newLogger
+	setLibraryLogger()
 }
 
 // SetLogWriter uses a specified io.Writer to output library log.
-// Use this func if you are not using Seelog logging system in your app.
+// Use this func if you are not using Seelog logging system in your cmd.
 func SetLogWriter(writer io.Writer) error {
 	if writer == nil {
 		return errors.New("Nil writer")
@@ -38,11 +39,13 @@ func SetLogWriter(writer io.Writer) error {
 	}
 
 	UseLogger(newLogger)
+	setLibraryLogger()
 	return nil
 }
 
-// FlushLog, call before app shutdown. This is called by realMain(). If a
+// FlushLog, call before cmd shutdown. This is called by realMain(). If a
 // logger other than Seelog is going to be used, use the 
 func FlushLog() {
+	flushLibraryLog()
 	logger.Flush()
 }
