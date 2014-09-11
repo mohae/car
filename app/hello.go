@@ -4,13 +4,15 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	log "github.com/cihub/seelog"
 )
 
 func Hello(words ...string) (string, error) {
 	h := "Hello"
 	if len(words) == 0 {
 		
-		logger.Tracef("exiting Hello: h  = %v, err=nil\n", h)
+		log.Tracef("exiting Hello: h  = %v, err=nil\n", h)
 		return h, nil
 	}
 
@@ -22,20 +24,17 @@ func Hello(words ...string) (string, error) {
 		h = strings.ToLower(h)
 	}
 
-	// Print out the current settings.
-	fmt.Printf("configfile: %s\n", os.Getenv(EnvConfigFile))
-	fmt.Printf("logging: %v\n", os.Getenv(EnvLogging))
-	fmt.Printf("logconfigfile: %s\n", os.Getenv(EnvLogConfigFile))
-	fmt.Printf("lower: %v\n", os.Getenv(EnvLower))
+	fmt.Println(h)
 
 	// This will go to their defined locations
-	logger.Trace("This is an example TRACE message\n")
-	logger.Debug("This is an example DEBUG message\n")
-	logger.Info("This is an example INFO message\n")
-	logger.Warn("This is an example WARN message\n")
-	logger.Error("This is an example ERROR message\n")
-	logger.Critical("This is an example CRITICAL message\n")
-	logger.Tracef("exiting Hello\n", h)
+	log.Trace("This is an example TRACE message\n")
+	log.Debug("This is an example DEBUG message\n")
+	log.Info("This is an example INFO message\n")
+	log.Warn("This is an example WARN message\n")
+	log.Error("This is an example ERROR message\n")
+	log.Critical("This is an example CRITICAL message\n")
+
+	log.Tracef("exiting Hello\n")
 	return h, nil
 }
 

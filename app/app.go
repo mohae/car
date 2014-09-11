@@ -14,18 +14,18 @@ var AppCode string
 // ConfigFile is the name of the configuration file for the application.
 var ConfigFile string = "config.json"
 
-// LogConfigFile is the name for the logging configuration file.
+// LogConfigFile is the name for the log configuration file.
 var LogConfigFile string = "seelog.xml"
 
-// Logging: whether or not application logging is enabled by default.
+// Log: whether or not application log is enabled by default.
 // Initialize to true if it should automatically be enabled.
-var Logging bool
+var Log bool
 
 // Environment variables
 var (
 	EnvConfigFile string = "configfile"
 	EnvLogConfigFile string = "logconfigfile"
-	EnvLogging string = "logging"
+	EnvLog string = "log"
 
 	EnvLower string = "lower"
 )
@@ -73,10 +73,11 @@ func init() {
 	//	IsCore = false
 	// The shortcode, 2nd parameter, can be left as an empty string, ""
 	// if this flag doesn't support a shortcode.
-	contour.RegisterBoolFlag(EnvLogging, Logging, "") 
+	contour.RegisterBoolFlag(EnvLog, Log, "") 
 
 	// AddSettingAlias sets an alias for the setting.
-	contour.AddSettingAlias(EnvLogging, "logenabled")
+	// contour doesn't support alias yet
+	contour.AddSettingAlias(EnvLog, "logenabled")
 
 	initApp()
 
@@ -108,13 +109,13 @@ func InitConfig() error {
 	return contour.SetConfig()
 }
 
-// SetAppLogging sets the logger for package loggers and allow for custom-
-// ization of the applications logging. This is where app specific code for
-// setting up the application's logging should be.
+// SetAppLog sets the logger for package loggers and allow for custom-
+// ization of the applications log. This is where app specific code for
+// setting up the application's log should be.
 // 
-// SetAppLogging assumes that logging is enabled if it has been called as its
-// caller should be SetLogging(). If you are going to call this from elsewhere,
-// first make sure that logging is enabled.
+// SetAppLog assumes that log is enabled if it has been called as its
+// caller should be SetLog(). If you are going to call this from elsewhere,
+// first make sure that log is enabled.
 //
 // This uses seelog.
 func SetAppLogging() {
@@ -122,3 +123,6 @@ func SetAppLogging() {
 	return 
 }
 
+func AppFlushLog() {
+	contour.FlushLog()
+}

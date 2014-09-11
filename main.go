@@ -22,6 +22,7 @@ import (
 	"os"
 	"runtime"
 
+	log "github.com/cihub/seelog"
 	"github.com/mohae/cli"
 	"github.com/mohae/quine/app"
 )
@@ -42,6 +43,7 @@ func main() {
 // must go to stdout until then.
 func realMain() int {
 	defer app.FlushLog()
+	defer log.Flush()
 
 	// Get the command line args.
 	args := os.Args[1:]
@@ -68,3 +70,4 @@ func realMain() int {
 	// Return the exitcode.
 	return exitCode
 }
+
