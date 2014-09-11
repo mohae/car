@@ -2,6 +2,7 @@ package command
 
 import (
 	"flag"
+	"fmt"
 	"strings"
 
 	"github.com/mohae/cli"
@@ -56,6 +57,12 @@ func (c *HelloCommand) Run(args []string) int {
 	filteredArgs, err := contour.FilterArgs(cmdFlags, args)
 	if err != nil {
 		c.UI.Error(err.Error())
+		return 1
+	}
+
+	err = app.SetLogging()
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("setup and configuration of application logging failed: %s", err))
 		return 1
 	}
 

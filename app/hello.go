@@ -1,4 +1,3 @@
-// hello runs the hello command
 package app
 
 import (
@@ -8,10 +7,9 @@ import (
 )
 
 func Hello(words ...string) (string, error) {
-	logger.Tracef("Entering Hello with: %v\n", words)
-
 	h := "Hello"
 	if len(words) == 0 {
+		
 		logger.Tracef("exiting Hello: h  = %v, err=nil\n", h)
 		return h, nil
 	}
@@ -20,14 +18,24 @@ func Hello(words ...string) (string, error) {
 		h += " " + word
 	}
 
-	// TODO: This should really be fed through strconv.FormatBool
-	if os.Getenv("lower") == "true" {
+	if os.Getenv(EnvLower) == "true" {
 		h = strings.ToLower(h)
 	}
 
-	fmt.Println(h)
-	logger.Infof("output: %s", h)
+	// Print out the current settings.
+	fmt.Printf("configfile: %s\n", os.Getenv(EnvConfigFile))
+	fmt.Printf("logging: %v\n", os.Getenv(EnvLogging))
+	fmt.Printf("logconfigfile: %s\n", os.Getenv(EnvLogConfigFile))
+	fmt.Printf("lower: %v\n", os.Getenv(EnvLower))
 
-	message := fmt.Sprintf("Hello completed.\nLower used: %v.\nPhrase used for Hello: %s.\n",  os.Getenv("lower"), h)   
-	return message, nil
+	// This will go to their defined locations
+	logger.Trace("This is an example TRACE message\n")
+	logger.Debug("This is an example DEBUG message\n")
+	logger.Info("This is an example INFO message\n")
+	logger.Warn("This is an example WARN message\n")
+	logger.Error("This is an example ERROR message\n")
+	logger.Critical("This is an example CRITICAL message\n")
+	logger.Tracef("exiting Hello\n", h)
+	return h, nil
 }
+

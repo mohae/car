@@ -1,14 +1,23 @@
 // Contains log related stuff.
-package app 
+package app
 
 import (
-	"errors"
-	"io"
-
-	seelog "github.com/cihub/seelog"
+	log "github.com/cihub/seelog"
+	"github.com/mohae/contour"
 )
 
-var logger seelog.LoggerInterface
+// constants for loglevels
+const (
+	Trace    = "trace"
+	Debug    = "debug"
+	Info     = "info"
+	Warn     = "warn"
+	Error    = "error"
+	Critical = "critical"
+	Off      = "off"
+)
+
+var logger log.LoggerInterface
 
 func init() {
 	//Disable logger by default
@@ -17,35 +26,34 @@ func init() {
 
 // DisableLog disables all package output
 func DisableLog() {
-	logger = seelog.Disabled
+	logger = log.Disabled
 }
 
-// UseLoggers uses a specified seelog.LoggerInterface to output package to log.
-func UseLogger(newLogger seelog.LoggerInterface) {
-	logger = newLogger
-	setLibraryLogger()
-}
-
-// SetLogWriter uses a specified io.Writer to output library log.
-// Use this func if you are not using Seelog logging system in your cmd.
-func SetLogWriter(writer io.Writer) error {
-	if writer == nil {
-		return errors.New("Nil writer")
+// SetLogging sets up logging, if it is enabled to stdout. At this point, the
+// only overrides to logging will occur with CLI args. If the CLI args have any
+// logging related flags, those will be processed and logging will be updated.
+//
+func SetLogging() error {
+	if !contour.GetBool(EnvLogging) {
+		return nil
 	}
 
-	newLogger, err := seelog.LoggerFromWriterWithMinLevel(writer, seelog.TraceLvl)
+	logConfig := contour.GetString(EnvLogConfigFile)
+
+	logger, err := log.LoggerFromConfigAsFile(logConfig)
 	if err != nil {
 		return err
 	}
-
-	UseLogger(newLogger)
-	setLibraryLogger()
+	
+	log.ReplaceLogger(logger)
+	SetAppLogging()
 	return nil
 }
 
-// FlushLog, call before cmd shutdown. This is called by realMain(). If a
-// logger other than Seelog is going to be used, use the 
 func FlushLog() {
-	flushLibraryLog()
+	// Flush the library logs.
+
+	// Then flush the package log
 	logger.Flush()
 }
+

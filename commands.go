@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/mohae/cli"
+	"github.com/mohae/quine/app"
 	"github.com/mohae/quine/command"
 )
 
@@ -24,7 +25,7 @@ func init() {
 		},
 		"version": func() (cli.Command, error) {
 			return &command.VersionCommand{
-				Name: Name,
+				Name: app.Name,
 				Revision: GitCommit,
 				Version: Version,
 				VersionPrerelease: VersionPrerelease,

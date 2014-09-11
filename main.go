@@ -18,12 +18,53 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"runtime"
+
+	"github.com/mohae/cli"
+	"github.com/mohae/quine/app"
 )
 
 // This is modeled on mitchellh's realmain wrapper
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
-	os.Exit(appMain())
+	os.Exit(realMain())
+}
+
+// realMain, is the actual main for the application. This keeps all changes
+// needed for a new application to one file in the main application directory.
+// In addition to this, only commands/ needs to be modified, adding the app's
+// commands and any handler codes for those commands, like the 'cmd' package.
+//
+// No logging is done until the flags are processed, since the flags could
+// enable/disable output, alter it, or alter its output locations. Everything
+// must go to stdout until then.
+func realMain() int {
+	defer app.FlushLog()
+
+	// Get the command line args.
+	args := os.Args[1:]
+
+	// Initialize the application configuration.
+	app.InitConfig()
+
+	// Setup the args, Commands, and Help info.
+	cli := &cli.CLI{
+		Name: app.Name,
+		Version: Version,
+		Commands: Commands,
+		Args: args,
+		HelpFunc: cli.BasicHelpFunc(),
+	}
+
+	// Run the passed command, recieve back a message and error object.
+	exitCode, err := cli.Run()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error executing CLI: %s\n", err.Error())
+		return 1
+	}
+
+	// Return the exitcode.
+	return exitCode
 }
