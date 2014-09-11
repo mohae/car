@@ -10,7 +10,7 @@ import (
 	log "github.com/cihub/seelog"
 	"github.com/mohae/cli"
 	"github.com/mohae/contour"
-	"github.com/mohae/quine/cmd")
+	"github.com/mohae/quine/app")
 
 // Name is the name of the application
 var Name string = "quine"
@@ -143,7 +143,7 @@ func InitConfig() error {
 // This uses seelog.
 func SetAppLogging() error {
 	contour.UseLogger(logger)
-	cmd.UseLogger(logger)
+	app.UseLogger(logger)
 	return nil
 }
 
@@ -156,7 +156,7 @@ func SetAppLogging() error {
 // enable/disable output, alter it, or alter its output locations. Everything
 // must go to stdout until then.
 func appMain() int {
-	defer cmd.FlushLog()
+	defer app.FlushLog()
 	defer contour.FlushLog()
 	defer log.Flush()
 
