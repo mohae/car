@@ -31,7 +31,7 @@ var (
 )
 
 // Application config.
-var Config *contour.Config = contour.GetAppConfig()
+var Config *contour.Config = contour.AppConfig()
 
 // set-up the application defaults and let contour know about the app.
 // Setting also saves them to their relative environment variable.
