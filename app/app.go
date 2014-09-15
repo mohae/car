@@ -5,7 +5,7 @@ import (
 )
 
 // Name is the name of the application
-var Name string = "quine"
+var Name string = "car"
 
 // AppCode is the code for the application. This is used to prefix the
 // environment variable. It can be left empty.
@@ -21,16 +21,12 @@ var LogConfigFile string = "seelog.xml"
 // Initialize to true if it should automatically be enabled.
 var Log bool
 
-
 // Environment variables
 var (
-	EnvConfigFile    string = "configfile"
-	EnvLogConfigFile string = "logconfigfile"
-	EnvLog           string = "log"
-
-	EnvLower string = "lower"
+	EnvConfigFile    string = "config"
+	EnvLogConfigFile string = "logconfig"
+	EnvLogging       string = "logging"
 )
-
 
 // Application config.
 var Config = contour.AppConfig()
@@ -79,7 +75,7 @@ func init() {
 
 	// AddSettingAlias sets an alias for the setting.
 	// contour doesn't support alias yet
-//	contour.AddSettingAlias(EnvLog, "logenabled")
+	//	contour.AddSettingAlias(EnvLog, "logenabled")
 
 	initApp()
 

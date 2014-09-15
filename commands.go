@@ -1,38 +1,35 @@
-// Initializes the Commands struct for the application.
-// New commands need to be added to the CommandFactory map.
 package main
 
 import (
 	"os"
 
+	"github.com/mohae/car/command"
 	"github.com/mohae/cli"
-	"github.com/mohae/quine/app"
-	"github.com/mohae/quine/command"
 )
 
-// Commands
+// Commands is the mapping of all available car commands.
 var Commands map[string]cli.CommandFactory
 
-// Set-up the commands for the application. Help and version doesn't need to bo
-// set-up because they are always available.
 func init() {
 	ui := &cli.BasicUi{Writer: os.Stdout}
 	Commands = map[string]cli.CommandFactory{
-		"hello": func() (cli.Command, error) {
-			return &command.HelloCommand{
+		"create": func() (cli.Command, error) {
+			return &command.CreateCommand{
+				UI: ui,
+			}, nil
+		},
+		"delete": func() (cli.Command, error) {
+			return &command.DeleteCommand{
 				UI: ui,
 			}, nil
 		},
 		"version": func() (cli.Command, error) {
 			return &command.VersionCommand{
-				Name: app.Name,
-				Revision: GitCommit,
-				Version: Version,
+				Revision:          GitCommit,
+				Version:           Version,
 				VersionPrerelease: VersionPrerelease,
-				UI: ui,
+				UI:                ui,
 			}, nil
 		},
 	}
 }
-
-

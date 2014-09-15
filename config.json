@@ -1,4 +1,7 @@
 {
 	"logging":  true,
 	"logconfigfilename": "seelog.xml"
+	"format": "tar"
+	"type": "gzip"
+	"verbose": "false"
 }
