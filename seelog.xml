@@ -1,22 +1,38 @@
 <seelog>
     <outputs formatid="std:fast">
+<<<<<<< HEAD
 	<filter levels="info, error, warn, critical">
 	        <file path="application.log" formatid="std:debug-short"/>
 	</filter>
 	<filter levels="error, warn, critical" formatid="stderr">
 		<console />
+=======
+        <console />
+	<filter levels="info, error, warning">
+	        <file path="/var/log/baller.log" formatid="debug-short"/>
+>>>>>>> 2e926bf1982fb46d62edad497bf67f5e2bff12e7
 	</filter>
 	<filter levels="info" formatid="stdinfo">
 		<console />
 	</filter>
+<<<<<<< HEAD
 	<filter levels="debug, trace" formatid="stddetailed">
+=======
+	<filter levels="error, debug, trace" formatid="stderr">
+>>>>>>> 2e926bf1982fb46d62edad497bf67f5e2bff12e7
 		<console />
 	</filter>
     </outputs>
     <formats> 
+<<<<<<< HEAD
         <format id = "detailed" format= "%Date %Time [%Level] %RelFile-%FuncShort:%Line: %Msg%EscM(0)" /> 
         <format id = "stdinfo" format = "%Date %Time %EscM(32)[%Level]%EscM(39) %Msg%EscM(0)" /> 
 	<format id = "stderr" format= "%Date %Time %EscM(31)[%Level]%EscM(39) %EscM(31)%RelFile-%FuncShort(%Line):%EscM(39) %Msg%EscM(0)" />
 	<format id = "stddetailed" format= "%Date %Time %EscM(33)[%Level]%EscM(39) %EscM(33)%RelFile-%FuncShort(%Line):%EscM(39) %Msg%EscM(0)" />
+=======
+        <format id = "detailed" format= "[%LEV] %UTCDate(time.RFC822) %RelFile->$FuncShort:$Line %Msg%n"/> 
+        <format id = "stdinfo" format = "%EscM(46)[%l]%EscM(49) %Msg\n%EscM(0)"> 
+	<format id = "stderr" format= "%EscM(46)[%l]%EscM(49) $RelFile-> %FuncShort:$Line $Msg\n%EscM(0)"/>
+>>>>>>> 2e926bf1982fb46d62edad497bf67f5e2bff12e7
     </formats> 
 </seelog>
