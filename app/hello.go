@@ -2,10 +2,10 @@ package app
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	log "github.com/cihub/seelog"
+	"github.com/mohae/contour"
 )
 
 func Hello(words ...string) (string, error) {
@@ -20,7 +20,7 @@ func Hello(words ...string) (string, error) {
 		h += " " + word
 	}
 
-	if os.Getenv(EnvLower) == "true" {
+	if contour.GetBool(EnvLower) {
 		h = strings.ToLower(h)
 	}
 

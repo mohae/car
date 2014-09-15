@@ -1,17 +1,24 @@
 Quine
 =====
 
-## In Development
+#### README
+is under development. Please excuse the mess, sentence fragments, abandoned thoughts, etc.
 
+#### Quine mostly works
+When compiled, Quine supports `version` and `help` both as commands and flags. `hello` is supported as a command with one additional bool flag, `lower`, which lowercases the output instead of preserving case. In addition to the `hello` output, Quine also prints out sample log message, some of which will end up in the application log and all of which will be written to stdout. This is just to show logging.
+
+Quine has not been implemented in any applications, yet, and I will not consider it stable until it has as some bugs and annoyances will appear in the process.
+
+## About
 Bobby Quine knows software.
 
-Quine is an idiosyncratic CLI application template that seeks to make it easy to integrate your app into a CLI. It is based on the assumption that your app already knows about its configuration so it doesn't seek to have you reimplement it.
+Quine is an idiosyncratic CLI application template that seeks to make it easy to integrate your application code into a CLI interface with support for flags, configuration files, and logging. It was created because I found the other options to involve more work than necessary, imo, to get a CLI application started. 
 
-It does, however, make some assumptions about your application that probably aren't true if it's not designed for Quine. The requirements are minimal. Quine assumes that your application is able to tell it its name, version and the sub-commands it implements including flags, arguments, and other options. It also assumes that your application is reading its configuration from environment variables. Quine also assumes that your application is structured in a manner that there is a main application package, with which it will obtain its information from. 
+Quine is not designed to be used for server applications where the application must be able to recover from a panic and continue running in most situations. It does not support immediate logging on start-up like one might want from a server application that is to be continuously running as it delays any logging evaluation until the command-line args are processed, in case there are any that affect logging (if this isn't applicable to your program, moving logging to a point where it starts immediately is simple.
 
-How you architect your application beyond that single requirement is up to you.
+Quine was created to minimize the changes needed to create a new CLI application. Mostly, all you need to do is clone https:\\github.com/mohae/quine as your new application, register your application's settings, add the commands, and add the command handlers to the `yourApp/app/` directory. 
 
-This assumption makes it easy to add a CLI to a package, including full logging capabilities. This can help the development process for certain workflows.
+No adding of flag filtering or other argument handling, registering a setting as a flag automatically takes care of that.
 
 Quine is both a CLI application template and a minimalist example application. Quine can be compiled and run, with all flags working. To customize to your app, replace the call to ?????? with your application's main package name.
 
@@ -27,30 +34,22 @@ It supports:
 Quine uses a fork of [Mitchell Hashimoto's cli](https://github.com/mitchellh/cli). It is mostly consistent with the parent repo, with a few customizations for additional features.
 
 ### Logging
-Quine uses [seelog](http://github.com/cihub/seelog) for its logging library. With it comes colorized stdout output, custom log levels for various logger outputs, custom loggers, custom filters, email alerts, etc. Quine's log configuration file is in `seelog.xml`
+Quine uses [seelog](https://github.com/cihub/seelog) for its logging library. With it comes colorized stdout output, custom log levels for various logger outputs, custom loggers, custom filters, email alerts, etc. Quine's log configuration file is in `seelog.xml`
+
+### Contour
+Quine uses [contour](https://github.com/mohae/contour) for its configuration management. Contour supports multiple named configurations, application settings, configuration files, and flags. Contour automatically handles flag filtering, just pass it all of the received args and it will return the filtered arg list. The flag data is automatically applied to the configuration.
+
 
 ## To Use
 
 Clone the repo:
 
-    git clone https://github.com/mohae/quine
+    git clone https://github.com/mohae/quine yourApp
 
 And change into it:
 
-    $ cd quine
+    $ cd yourApp
 
-### Bobby
-
-Bobby Newmark is a hacker.
-
-He is used to turn a `quine` template into your application's CLI harness. When run, `bobby` takes the parent directorie's name and uses that as the application's name. This value is used to replace `quine` with your application's name.
-
-## To Use
-
-To just rename the files:
-
-    $ ./bobby rename
-
-After this has successfully run, clone your application into ---------
-
-To add a basic application directory, add flags
+## Wishlist
+* Environment variable support
+* An application to automate the manual changes needed to turn Quine into yourApp

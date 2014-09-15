@@ -21,17 +21,19 @@ var LogConfigFile string = "seelog.xml"
 // Initialize to true if it should automatically be enabled.
 var Log bool
 
+
 // Environment variables
 var (
-	EnvConfigFile string = "configfile"
+	EnvConfigFile    string = "configfile"
 	EnvLogConfigFile string = "logconfigfile"
-	EnvLog string = "log"
+	EnvLog           string = "log"
 
 	EnvLower string = "lower"
 )
 
+
 // Application config.
-var Config *contour.Config = contour.AppConfig()
+var Config = contour.AppConfig()
 
 // set-up the application defaults and let contour know about the app.
 // Setting also saves them to their relative environment variable.
@@ -46,16 +48,16 @@ func init() {
 	// The config filename is handled differently, calling this function
 	// also sets the ConfigFile format automatically,based on the
 	// extension, if it can be determined. If it cannot, the extension is
-	// left blank and must be set. 
+	// left blank and must be set.
 	contour.RegisterConfigFilename(EnvConfigFile, ConfigFile)
 
 	//// Alternative way, manually setting the values
-	//contour.RegisterString(EnvConfigFilename, ConfigFilename) 
-	//contour.RegisterString(EnvConfigFileExt, "json") 
+	//contour.RegisterString(EnvConfigFilename, ConfigFilename)
+	//contour.RegisterString(EnvConfigFileExt, "json")
 
 	// Core settings are only settable by the application, and once set are
 	// immutable
-	contour.RegisterCoreString("appname", Name) 
+	contour.RegisterCoreString("appname", Name)
 
 	// Immutable settings are only settable once. If its value isn't set
 	// during registration, it can be set at a later time. Once it is set,
@@ -64,8 +66,8 @@ func init() {
 	// immutable.
 
 	// This is set in the config file.
-	contour.RegisterImmutableString(EnvLogConfigFile, LogConfigFile)
-	
+	contour.RegisterString(EnvLogConfigFile, LogConfigFile)
+
 	// Set*Flag allows you to add settings that are also exposed as
 	// command-line flags. Default implicit values to settings:
 	//	IsFlag = true
@@ -73,11 +75,11 @@ func init() {
 	//	IsCore = false
 	// The shortcode, 2nd parameter, can be left as an empty string, ""
 	// if this flag doesn't support a shortcode.
-	contour.RegisterBoolFlag(EnvLog, Log, "") 
+	contour.RegisterFlagBool(EnvLog, Log, "")
 
 	// AddSettingAlias sets an alias for the setting.
 	// contour doesn't support alias yet
-	contour.AddSettingAlias(EnvLog, "logenabled")
+//	contour.AddSettingAlias(EnvLog, "logenabled")
 
 	initApp()
 
@@ -86,12 +88,11 @@ func init() {
 
 // InitApp is the best place to add custom defaults for your application,
 func initApp() {
-	contour.RegisterBoolFlag(EnvLower, false, "")
+	contour.RegisterFlagBool(EnvLower, false, "")
 }
 
-
 // InitConfig initialized the application's configuration. When the config is
-// has been initialized, the preset-enivronment variables, application 
+// has been initialized, the preset-enivronment variables, application
 // defaults, and your application's configuration file, should it have one,
 // will all be merged according to the setting properties.
 //
@@ -112,7 +113,7 @@ func InitConfig() error {
 // SetAppLog sets the logger for package loggers and allow for custom-
 // ization of the applications log. This is where app specific code for
 // setting up the application's log should be.
-// 
+//
 // SetAppLog assumes that log is enabled if it has been called as its
 // caller should be SetLog(). If you are going to call this from elsewhere,
 // first make sure that log is enabled.
@@ -120,7 +121,7 @@ func InitConfig() error {
 // This uses seelog.
 func SetAppLogging() {
 	contour.UseLogger(logger)
-	return 
+	return
 }
 
 func AppFlushLog() {
