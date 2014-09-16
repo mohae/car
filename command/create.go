@@ -59,8 +59,23 @@ func (c *CreateCommand) Run(args []string) int {
 		return 1
 	}
 
+	// If there aren't at least 2 remaining args error out
+	l := len(filteredArgs)
+	var message string
+	switch l {
+	case 0:
+		message = "to create an archive, both a destination for the created archive and at least one source must be specified"
+	case 1:
+		message = "to create an archive, at least one source must be specified"
+	}
+
+	if message != "" {
+		c.UI.Error("Error: " + message)
+		return 1
+	}
+
 	// Run the command in the package.
-	message, err := app.Create(filteredArgs[0], filteredArgs[1:]...)
+	message, err = app.Create(filteredArgs[0], filteredArgs[1:]...)
 	if err != nil {
 		c.UI.Error(err.Error())
 		return 1
