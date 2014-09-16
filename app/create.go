@@ -1,7 +1,7 @@
 package app
 
 import (
-	_ "fmt"
+	"fmt"
 	_ "strings"
 	"time"
 
@@ -42,7 +42,7 @@ func Create(destination string, sources ...string) (string, error) {
 	*/
 	// message = fmr.Sprintf("%s created from: %s in %d seconds\n", destination, sources, archiver.Time())
 	Δt := float64(time.Now().Sub(t0)) / 1e9
-	message := "tmp message"
+	message := fmt.Sprintf("Create process complete: %.4f seconds")
 
 	log.WithFields(log.Fields{
 		"operations": "Create",
