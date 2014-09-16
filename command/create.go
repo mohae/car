@@ -60,7 +60,7 @@ func (c *CreateCommand) Run(args []string) int {
 	}
 
 	// Run the command in the package.
-	message, err := app.Create(filteredArgs...)
+	message, err := app.Create(filteredArgs[0], filteredArgs[1:]...)
 	if err != nil {
 		c.UI.Error(err.Error())
 		return 1

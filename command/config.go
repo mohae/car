@@ -5,8 +5,8 @@ import (
 )
 
 func initConfig() {
-	contour.RegisterStringFlag("format", "tar", "f")
-	contour.RegisterStringFlag("type", "gzip", "t")
-	contour.RegisterBoolFlag("verbose", false, "v")
+	contour.RegisterFlagString("format", "tar", "f")
+	contour.RegisterFlagString("type", "gzip", "t")
+	contour.RegisterFlagBool("verbose", false, "v")
 	//	registerCommandSettings()
 }

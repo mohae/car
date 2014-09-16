@@ -14,18 +14,15 @@ var AppCode string
 // ConfigFile is the name of the configuration file for the application.
 var ConfigFile string = "config.json"
 
-// LogConfigFile is the name for the log configuration file.
-var LogConfigFile string = "seelog.xml"
-
 // Log: whether or not application log is enabled by default.
 // Initialize to true if it should automatically be enabled.
 var Log bool
 
 // Environment variables
 var (
-	EnvConfigFile    string = "config"
-	EnvLogConfigFile string = "logconfig"
-	EnvLogging       string = "logging"
+	EnvConfigFile string = "config"
+	EnvLog        string = "log"
+	EnvLogLevel   string = "warn"
 )
 
 // Application config.
@@ -61,9 +58,6 @@ func init() {
 	// that initialization causes bools to be set, bools cannot be made
 	// immutable.
 
-	// This is set in the config file.
-	contour.RegisterString(EnvLogConfigFile, LogConfigFile)
-
 	// Set*Flag allows you to add settings that are also exposed as
 	// command-line flags. Default implicit values to settings:
 	//	IsFlag = true
@@ -84,7 +78,6 @@ func init() {
 
 // InitApp is the best place to add custom defaults for your application,
 func initApp() {
-	contour.RegisterFlagBool(EnvLower, false, "")
 }
 
 // InitConfig initialized the application's configuration. When the config is
@@ -116,10 +109,5 @@ func InitConfig() error {
 //
 // This uses seelog.
 func SetAppLogging() {
-	contour.UseLogger(logger)
 	return
-}
-
-func AppFlushLog() {
-	contour.FlushLog()
 }

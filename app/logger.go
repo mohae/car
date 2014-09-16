@@ -2,24 +2,12 @@
 package app
 
 import (
-	_"fmt"
+	_ "fmt"
+	"io/ioutil"
 
-	log "github.com/cihub/seelog"
+	log "github.com/Sirupsen/logrus"
 	"github.com/mohae/contour"
 )
-
-// constants for loglevels
-const (
-	Trace    = "trace"
-	Debug    = "debug"
-	Info     = "info"
-	Warn     = "warn"
-	Error    = "error"
-	Critical = "critical"
-	Off      = "off"
-)
-
-var logger log.LoggerInterface
 
 func init() {
 	//Disable logger by default
@@ -28,7 +16,7 @@ func init() {
 
 // DisableLog disables all package output
 func DisableLog() {
-	logger = log.Disabled
+	log.SetOutput(ioutil.Discard)
 }
 
 // SetLog sets up logging, if it is enabled to stdout. At this point, the
@@ -37,26 +25,12 @@ func DisableLog() {
 //
 func SetLogging() error {
 	if !contour.GetBool(EnvLog) {
+		// If we're not logging disable the log output
+		DisableLog()
 		return nil
 	}
 
-	logConfig := contour.GetString(EnvLogConfigFile)
-
-	logger, err := log.LoggerFromConfigAsFile(logConfig)
-	if err != nil {
-		return err
-	}
-	
-	log.ReplaceLogger(logger)
+	log.SetLogLevel(contour.GetString(EnvLogLevel))
 	SetAppLogging()
 	return nil
 }
-
-func FlushLog() {
-	// Flush the library logs.
-	AppFlushLog()
-
-	// Then flush the main logger
-	logger.Flush()
-}
-

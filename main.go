@@ -22,9 +22,8 @@ import (
 	"os"
 	"runtime"
 
-	log "github.com/cihub/seelog"
+	"github.com/mohae/car/app"
 	"github.com/mohae/cli"
-	"github.com/mohae/quine/app"
 )
 
 // This is modeled on mitchellh's realmain wrapper
@@ -42,8 +41,9 @@ func main() {
 // enable/disable output, alter it, or alter its output locations. Everything
 // must go to stdout until then.
 func realMain() int {
-	defer app.FlushLog()
-	defer log.Flush()
+	// Set initial logging; which is output Warning and higher to stdout.
+	// This may be overridden by configuration settings and flags.
+	app.SetLogging()
 
 	// Get the command line args.
 	args := os.Args[1:]
@@ -51,12 +51,15 @@ func realMain() int {
 	// Initialize the application configuration.
 	app.InitConfig()
 
+	// After loading config, update loggingg. This may be overridden by flags.
+	app.SetLogging()
+
 	// Setup the args, Commands, and Help info.
 	cli := &cli.CLI{
-		Name: app.Name,
-		Version: Version,
+		Name:     app.Name,
+		Version:  Version,
 		Commands: Commands,
-		Args: args,
+		Args:     args,
 		HelpFunc: cli.BasicHelpFunc(),
 	}
 
@@ -70,4 +73,3 @@ func realMain() int {
 	// Return the exitcode.
 	return exitCode
 }
-
