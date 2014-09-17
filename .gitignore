@@ -29,3 +29,8 @@ _testmain.go
 *.swo
 *.log
 car
+*.car
+*.cgz
+*.tgz
+*.tar.gz
+*.car.gz

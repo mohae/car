@@ -2,6 +2,7 @@ package app
 
 import (
 	"io/ioutil"
+	"os"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/mohae/contour"
@@ -13,11 +14,16 @@ var (
 
 	// ConfigFile is the name of the configuration file for the application.
 	ConfigFile string = "app.json"
+
+	// Logfile is the name of the default log file for the application
+	LogFile string = "app.log"
 )
 
 // Environment variables
 var (
 	EnvConfigFile      string = "configfile"
+	EnvLogFormat	string = "logformat"
+	EnvLogFile	string = "logfile"
 	EnvLog             string = "log"
 	EnvLogLevel        string = "loglevel"
 	EnvStdout          string = "stdout"
@@ -29,6 +35,8 @@ var (
 
 // Application config.
 var Config = contour.AppConfig()
+
+var logFile *os.File 
 
 // set-up the application defaults and let contour know about the app.
 // Setting also saves them to their relative environment variable.
@@ -70,13 +78,14 @@ func init() {
 
 	// Logging and output related
 	contour.RegisterFlagBool(EnvLog, false, "l")
+	contour.RegisterFlagString(EnvLogFile, LogFile, "f")
 	contour.RegisterFlagString(EnvLogLevel, "warn", "")
 	contour.RegisterFlagBool(EnvStdout, false, "s")
 	contour.RegisterFlagString(EnvStdoutLevel, "info", "")
 	contour.RegisterFlagBool(EnvVerbose, false, "v")
 
 	// car
-	contour.RegisterFlagString(EnvArchiveFormat, "tar", "f")
+	contour.RegisterFlagString(EnvArchiveFormat, "tar", "a")
 	contour.RegisterFlagString(EnvCompressionType, "gzip", "c")
 
 	// AddSettingAlias sets an alias for the setting.
@@ -114,13 +123,29 @@ func InitConfig() error {
 // SetAppLog sets the logger for package loggers and allow for custom-
 // ization of the applications log. This is where app specific code for
 // setting up the application's log should be.
-func SetAppLogging() {
+func SetAppLogging() error {
 	if !contour.GetBool(EnvLog) {
 		log.SetOutput(ioutil.Discard)
-		return
+		return nil
 	}
 
-	formatter := contour.GetString("logformatter")
+	formatter := contour.GetString(EnvLogFormat)
+
+	logFilename := contour.GetString(EnvLogFile)
+
+	var err error
+
+	if logFilename != "" {
+		logFile, err = os.OpenFile(logFilename, os.O_RDWR|os.O_CREATE, 0666)
+		if err != nil {
+			log.Fatal(err)
+			return err
+		}
+		log.SetOutput(logFile)
+	} else {
+		log.SetOutput(os.Stdout)
+	}
+
 	switch formatter {
 	case "json":
 		log.SetFormatter(&log.JSONFormatter{})
@@ -135,5 +160,5 @@ func SetAppLogging() {
 	// syslog hook?
 	// stdout handling
 	// verbose
-	return
+	return nil
 }

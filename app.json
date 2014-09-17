@@ -1,0 +1,10 @@
+{
+	"logfile": "app.log",
+	"log":  true,
+        "loglevel": "warn",
+	"stdout": true,
+	"stdoutLevel": "debug",
+	"archiveformat": "tar",
+	"compressiontype": "gzip",
+	"verbose": true
+}
