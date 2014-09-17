@@ -6,43 +6,53 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
-	_ "github.com/mohae/carchivum"
-	_ "github.com/mohae/contour"
+	arch "github.com/mohae/carchivum"
+	"github.com/mohae/contour"
 )
 
 func Create(destination string, sources ...string) (string, error) {
 	t0 := time.Now()
-	/*
-		archive := arch.NewArchive()
+	var err error
+	var message string
 
-		arr = archiver.SetCompression(contour.GetString("type"))
-		if err != nil {
-			log.WithFields(log.Fields{
-				"CompressionType":  contour.GetString("type")
-			}).Error(err)
-			return "", err
-		}
+	archive := arch.NewArchive()
+	err = archive.SetFormat(contour.GetString("format"))
+	if err != nil {
+		log.WithFields(log.Fields{
+			"ArchiveFormat": contour.GetString("format"),
+		}).Error(err)
+		return message, err
+	}
 
-		err = archiver.SetDateFormat(contour.GetString("dateformat"))
-		if err != nil {
-			log.WithFields{
-				"DateFormat": contour.GetString("dateformat")
-			}).Error(err)
-			return "", err
-		}
+	err = archive.SetCompressionType(contour.GetString("type"))
+	if err != nil {
+		log.WithFields(log.Fields{
+			"CompressionType": contour.GetString("type"),
+		}).Error(err)
+		return message, err
+	}
 
-		err := archive.Create("archive{{ .Datetime }}", ".")
-		if err != nil {
-			log.WithFields{
-				"Archive": destination,
-				"Sources": source,
-			}).Error((err)
-			return "", err
-		}
-	*/
-	// message = fmr.Sprintf("%s created from: %s in %d seconds\n", destination, sources, archiver.Time())
+	err = archive.SetDateFormat(contour.GetString("dateformat"))
+	if err != nil {
+		log.WithFields(log.Fields{
+			"DateFormat": contour.GetString("dateformat"),
+		}).Error(err)
+		return message, err
+	}
+
+	err = archive.Create("archive{{ .Datetime }}", ".")
+	if err != nil {
+		log.WithFields(log.Fields{
+			"Archive": destination,
+			"Sources": source,
+		}).Error(err)
+		return message, err
+	}
+
+	// message = fmr.Sprintf("%s created from: %s in %d seconds\n", destination, sources, archive.Time())
 	Δt := float64(time.Now().Sub(t0)) / 1e9
-	message := fmt.Sprintf("Create process complete: %.4f seconds")
+	elapsed := fmt.Sprintf("Create process complete: %.4f seconds", Δt)
+	message = elapsed
 
 	log.WithFields(log.Fields{
 		"operations": "Create",
