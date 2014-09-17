@@ -1,28 +1,30 @@
 package app
 
 import (
+	"io/ioutil"
+
+	log "github.com/Sirupsen/logrus"
 	"github.com/mohae/contour"
 )
 
-// Name is the name of the application
-var Name string = "car"
+var (
+	// Name is the name of the application
+	Name string = "car"
 
-// AppCode is the code for the application. This is used to prefix the
-// environment variable. It can be left empty.
-var AppCode string
-
-// ConfigFile is the name of the configuration file for the application.
-var ConfigFile string = "config.json"
-
-// Log: whether or not application log is enabled by default.
-// Initialize to true if it should automatically be enabled.
-var Log bool
+	// ConfigFile is the name of the configuration file for the application.
+	ConfigFile string = "config.json"
+)
 
 // Environment variables
 var (
 	EnvConfigFile string = "config"
 	EnvLog        string = "log"
-	EnvLogLevel   string = "warn"
+	EnvLogLevel   string = "loglevel"
+	EnvLogStdout  string = "logstdout"
+	EnvLogStdoutLevel string = "logstdoutlevel"
+	EnvArchiveFormat string = "archiveformat"
+	EnvCompressionType string = "compressiontype"
+	EnvVerbose string = "verbose"
 )
 
 // Application config.
@@ -45,8 +47,8 @@ func init() {
 	contour.RegisterConfigFilename(EnvConfigFile, ConfigFile)
 
 	//// Alternative way, manually setting the values
-	//contour.RegisterString(EnvConfigFilename, ConfigFilename)
-	//contour.RegisterString(EnvConfigFileExt, "json")
+	//contour.RegisterString("configfilename", ConfigFilename)
+	//contour.RegisterString("configfileext", "json")
 
 	// Core settings are only settable by the application, and once set are
 	// immutable
@@ -65,7 +67,17 @@ func init() {
 	//	IsCore = false
 	// The shortcode, 2nd parameter, can be left as an empty string, ""
 	// if this flag doesn't support a shortcode.
-	contour.RegisterFlagBool(EnvLog, Log, "")
+
+	// Logging and output related
+	contour.RegisterFlagBool(EnvLog, false, "l")
+	contour.RegisterFlagString(EnvLogLevel, "warn", "")
+	contour.RegisterFlagBool(EnvLogStdout, false, "s")
+	contour.RegisterFlagString(EnvLogStdoutLevel, "info", "")
+	contour.RegisterFlagBool(EnvVerbose, false, "v")
+
+	// car
+	contour.RegisterFlagString(EnvArchiveFormat, "tar", "f")
+	contour.RegisterFlagString(EnvCompressionType, "gzip", "c")
 
 	// AddSettingAlias sets an alias for the setting.
 	// contour doesn't support alias yet
@@ -102,12 +114,26 @@ func InitConfig() error {
 // SetAppLog sets the logger for package loggers and allow for custom-
 // ization of the applications log. This is where app specific code for
 // setting up the application's log should be.
-//
-// SetAppLog assumes that log is enabled if it has been called as its
-// caller should be SetLog(). If you are going to call this from elsewhere,
-// first make sure that log is enabled.
-//
-// This uses seelog.
 func SetAppLogging() {
+	if !contour.GetBool(EnvLog) {
+		log.SetOutput(ioutil.Discard)
+		return
+	}
+
+	formatter := contour.GetString("logformatter")
+	switch formatter {
+	case "json":
+		log.SetFormatter(&log.JSONFormatter{})
+	default:
+		log.SetFormatter(&log.TextFormatter{})
+	}
+
+	log.SetLogLevel(contour.GetString(EnvLogLevel))
+
+	// TODO:
+	// handle output to stdout too
+	// syslog hook?
+	// stdout handling
+	// verbose
 	return
 }

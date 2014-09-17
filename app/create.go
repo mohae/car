@@ -40,11 +40,11 @@ func Create(destination string, sources ...string) (string, error) {
 		return message, err
 	}
 
-	err = archive.Create("archive{{ .Datetime }}", ".")
+	message, err = archive.Create(destination, sources...)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"Archive": destination,
-			"Sources": source,
+			"Sources": sources,
 		}).Error(err)
 		return message, err
 	}

@@ -1,7 +1,9 @@
 {
-	"logging":  true,
-	"logconfigfilename": "seelog.xml"
-	"format": "tar"
-	"type": "gzip"
-	"verbose": "false"
+	"log":  true,
+	"logstdout": true,
+	"logstdoutLevel": "debug",
+	"loglevel": "warn",
+	"archiveformat": "tar",
+	"compressiontype": "gzip",
+	"verbose": true
 }
