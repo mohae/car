@@ -84,10 +84,6 @@ func init() {
 	contour.RegisterFlagString(EnvStdoutLevel, "info", "")
 	contour.RegisterFlagBool(EnvVerbose, false, "v")
 
-	// car
-	contour.RegisterFlagString(EnvArchiveFormat, "tar", "a")
-	contour.RegisterFlagString(EnvCompressionType, "gzip", "c")
-
 	// AddSettingAlias sets an alias for the setting.
 	// contour doesn't support alias yet
 	//	contour.AddSettingAlias(EnvLog, "logenabled")
@@ -99,6 +95,8 @@ func init() {
 
 // InitApp is the best place to add custom defaults for your application,
 func initApp() {
+	contour.RegisterFlagString("archiveformat", "tar", "f")
+	contour.RegisterFlagString("compressiontype", "gzip", "t")
 }
 
 // InitConfig initialized the application's configuration. When the config is
