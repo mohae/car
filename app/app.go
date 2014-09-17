@@ -12,19 +12,19 @@ var (
 	Name string = "car"
 
 	// ConfigFile is the name of the configuration file for the application.
-	ConfigFile string = "config.json"
+	ConfigFile string = "app.json"
 )
 
 // Environment variables
 var (
-	EnvConfigFile string = "config"
-	EnvLog        string = "log"
-	EnvLogLevel   string = "loglevel"
-	EnvLogStdout  string = "logstdout"
-	EnvLogStdoutLevel string = "logstdoutlevel"
-	EnvArchiveFormat string = "archiveformat"
+	EnvConfigFile      string = "configfile"
+	EnvLog             string = "log"
+	EnvLogLevel        string = "loglevel"
+	EnvStdout          string = "stdout"
+	EnvStdoutLevel     string = "stdoutlevel"
+	EnvArchiveFormat   string = "archiveformat"
 	EnvCompressionType string = "compressiontype"
-	EnvVerbose string = "verbose"
+	EnvVerbose         string = "verbose"
 )
 
 // Application config.
@@ -71,8 +71,8 @@ func init() {
 	// Logging and output related
 	contour.RegisterFlagBool(EnvLog, false, "l")
 	contour.RegisterFlagString(EnvLogLevel, "warn", "")
-	contour.RegisterFlagBool(EnvLogStdout, false, "s")
-	contour.RegisterFlagString(EnvLogStdoutLevel, "info", "")
+	contour.RegisterFlagBool(EnvStdout, false, "s")
+	contour.RegisterFlagString(EnvStdoutLevel, "info", "")
 	contour.RegisterFlagBool(EnvVerbose, false, "v")
 
 	// car

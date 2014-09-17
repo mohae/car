@@ -1,9 +1,0 @@
-{
-	"log":  true,
-	"logstdout": true,
-	"logstdoutLevel": "debug",
-	"loglevel": "warn",
-	"archiveformat": "tar",
-	"compressiontype": "gzip",
-	"verbose": true
-}

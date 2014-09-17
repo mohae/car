@@ -2,7 +2,7 @@ package app
 
 import (
 	"fmt"
-	_ "strings"
+	"strconv"
 	"time"
 
 	log "github.com/Sirupsen/logrus"
@@ -15,19 +15,30 @@ func Create(destination string, sources ...string) (string, error) {
 	var err error
 	var message string
 
+	fmt.Println(EnvLog, strconv.FormatBool(contour.GetBool(EnvLog)))
+	fmt.Println(EnvLogLevel, contour.GetString(EnvLogLevel))
+	fmt.Println(EnvStdout, strconv.FormatBool(contour.GetBool(EnvStdout)))
+	fmt.Println(EnvStdoutLevel, contour.GetString(EnvStdoutLevel))
+	fmt.Println(EnvVerbose, strconv.FormatBool(contour.GetBool(EnvVerbose)))
+	fmt.Println(EnvArchiveFormat, contour.GetString(EnvArchiveFormat))
+	fmt.Println(EnvCompressionType, contour.GetString(EnvCompressionType))
+
+	log.Error(contour.GetString(EnvCompressionType))
+	log.Info(strconv.FormatBool(contour.GetBool(EnvLog)))
+
 	archive := arch.NewArchive()
-	err = archive.SetFormat(contour.GetString("format"))
+	err = archive.SetFormat(contour.GetString(EnvArchiveFormat))
 	if err != nil {
 		log.WithFields(log.Fields{
-			"ArchiveFormat": contour.GetString("format"),
+			"ArchiveFormat": contour.GetString(EnvArchiveFormat),
 		}).Error(err)
 		return message, err
 	}
 
-	err = archive.SetCompressionType(contour.GetString("type"))
+	err = archive.SetCompressionType(contour.GetString(EnvCompressionType))
 	if err != nil {
 		log.WithFields(log.Fields{
-			"CompressionType": contour.GetString("type"),
+			"CompressionType": contour.GetString(EnvCompressionType),
 		}).Error(err)
 		return message, err
 	}
