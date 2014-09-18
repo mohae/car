@@ -41,6 +41,14 @@ func main() {
 // enable/disable output, alter it, or alter its output locations. Everything
 // must go to stdout until then.
 func realMain() int {
+	// Always write to tempfile until flags have been processed.
+	app.SetTempLogFile()
+	
+	// Where logFile points to might change, so we need to pass that info
+	// instead of capturing logFile.
+	defer func(f *os.File) { os.Remove(f.Name()) }(app.LogFile)
+	defer func(f *os.File) { f.Close() }(app.LogFile)
+
 	// Set initial logging; which is output Warning and higher to stdout.
 	// This may be overridden by configuration settings and flags.
 	app.SetLogging()

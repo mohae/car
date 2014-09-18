@@ -1,10 +1,6 @@
 package app
 
 import (
-	"io/ioutil"
-	"os"
-
-	log "github.com/Sirupsen/logrus"
 	"github.com/mohae/contour"
 )
 
@@ -13,17 +9,17 @@ var (
 	Name string = "car"
 
 	// ConfigFile is the name of the configuration file for the application.
-	ConfigFile string = "app.json"
+	ConfigFilename string = "app.json"
 
 	// Logfile is the name of the default log file for the application
-	LogFile string = "app.log"
+	LogFilename string = "app.log"
 )
 
 // Environment variables
 var (
-	EnvConfigFile      string = "configfile"
+	EnvConfigFilename      string = "configfile"
 	EnvLogFormat	string = "logformat"
-	EnvLogFile	string = "logfile"
+	EnvLogFilename	string = "logfile"
 	EnvLog             string = "log"
 	EnvLogLevel        string = "loglevel"
 	EnvStdout          string = "stdout"
@@ -35,8 +31,6 @@ var (
 
 // Application config.
 var Config = contour.AppConfig()
-
-var logFile *os.File 
 
 // set-up the application defaults and let contour know about the app.
 // Setting also saves them to their relative environment variable.
@@ -52,7 +46,7 @@ func init() {
 	// also sets the ConfigFile format automatically,based on the
 	// extension, if it can be determined. If it cannot, the extension is
 	// left blank and must be set.
-	contour.RegisterConfigFilename(EnvConfigFile, ConfigFile)
+	contour.RegisterConfigFilename(EnvConfigFilename, ConfigFilename)
 
 	//// Alternative way, manually setting the values
 	//contour.RegisterString("configfilename", ConfigFilename)
@@ -78,7 +72,7 @@ func init() {
 
 	// Logging and output related
 	contour.RegisterFlagBool(EnvLog, false, "l")
-	contour.RegisterFlagString(EnvLogFile, LogFile, "f")
+	contour.RegisterFlagString(EnvLogFilename, LogFilename, "f")
 	contour.RegisterFlagString(EnvLogLevel, "warn", "")
 	contour.RegisterFlagBool(EnvStdout, false, "s")
 	contour.RegisterFlagString(EnvStdoutLevel, "info", "")
@@ -116,47 +110,4 @@ func InitConfig() error {
 	//    also override certain settings. It may necessitate an additional
 	//    flag or two.
 	return contour.SetConfig()
-}
-
-// SetAppLog sets the logger for package loggers and allow for custom-
-// ization of the applications log. This is where app specific code for
-// setting up the application's log should be.
-func SetAppLogging() error {
-	if !contour.GetBool(EnvLog) {
-		log.SetOutput(ioutil.Discard)
-		return nil
-	}
-
-	formatter := contour.GetString(EnvLogFormat)
-
-	logFilename := contour.GetString(EnvLogFile)
-
-	var err error
-
-	if logFilename != "" {
-		logFile, err = os.OpenFile(logFilename, os.O_RDWR|os.O_CREATE, 0666)
-		if err != nil {
-			log.Fatal(err)
-			return err
-		}
-		log.SetOutput(logFile)
-	} else {
-		log.SetOutput(os.Stdout)
-	}
-
-	switch formatter {
-	case "json":
-		log.SetFormatter(&log.JSONFormatter{})
-	default:
-		log.SetFormatter(&log.TextFormatter{})
-	}
-
-	log.SetLogLevel(contour.GetString(EnvLogLevel))
-
-	// TODO:
-	// handle output to stdout too
-	// syslog hook?
-	// stdout handling
-	// verbose
-	return nil
 }
