@@ -71,9 +71,9 @@ func init() {
 	// if this flag doesn't support a shortcode.
 
 	// Logging and output related
-	contour.RegisterFlagBool(EnvLog, false, "l")
+	contour.RegisterFlagBool(EnvLog, true, "l")
 	contour.RegisterFlagString(EnvLogFilename, LogFilename, "f")
-	contour.RegisterFlagString(EnvLogLevel, "warn", "")
+	contour.RegisterFlagString(EnvLogLevel, "debug", "")
 	contour.RegisterFlagBool(EnvStdout, false, "s")
 	contour.RegisterFlagString(EnvStdoutLevel, "info", "")
 	contour.RegisterFlagBool(EnvVerbose, false, "v")
@@ -99,7 +99,7 @@ func initApp() {
 // will all be merged according to the setting properties.
 //
 // After this, only overrides can occur via command flags.
-func InitConfig() error {
+func SetConfig() error {
 	// Set config:
 	//    Checks environment variables for settings, follows update rules.
 	//    Retrieves config file and applies those settings, if and where

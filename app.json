@@ -1,7 +1,7 @@
 {
-	"logfile": "app.log",
+	"logfile": "zapp.log",
 	"log":  true,
-        "loglevel": "warn",
+        "loglevel": "debug",
 	"stdout": true,
 	"stdoutLevel": "debug",
 	"archiveformat": "tar",

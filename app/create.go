@@ -23,8 +23,8 @@ func Create(destination string, sources ...string) (string, error) {
 	fmt.Println(EnvArchiveFormat, contour.GetString(EnvArchiveFormat))
 	fmt.Println(EnvCompressionType, contour.GetString(EnvCompressionType))
 
-	log.Error(contour.GetString(EnvCompressionType))
-	log.Info(strconv.FormatBool(contour.GetBool(EnvLog)))
+	log.Errorf("CompressionType: %s", contour.GetString(EnvCompressionType))
+	log.Infof("Log: %s", strconv.FormatBool(contour.GetBool(EnvLog)))
 
 	archive := arch.NewArchive()
 	err = archive.SetFormat(contour.GetString(EnvArchiveFormat))
