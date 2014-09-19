@@ -22,13 +22,8 @@ import (
 	"os"
 	"runtime"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/mohae/car/app"
 	"github.com/mohae/cli"
-
-	"strconv"
-	_ "time"
-	"github.com/mohae/contour"
 )
 
 // This is modeled on mitchellh's realmain wrapper
@@ -46,36 +41,13 @@ func main() {
 // enable/disable output, alter it, or alter its output locations. Everything
 // must go to stdout until then.
 func realMain() int {
-	
-	fmt.Printf("log %s\n", strconv.FormatBool(contour.GetBool("log")))
-	fmt.Printf("loglevel %s\n", contour.GetString("loglevel"))
-
-	// Always write to tempfile until flags have been processed.
-	err := app.SetTempLogFile()
-	if err != nil {
-		fmt.Println(err)
-	}
-	log.Debugf("using temp log %s\n", app.LogFile.Name())
-	fmt.Printf("using temp log %s\n", app.LogFile.Name())
-
-//	time.Sleep(40 * time.Second)
-	// Where logFile points to might change, so we need to pass that info
-	// instead of capturing logFile.
-	defer func(f *os.File) { os.Remove(f.Name()) }(app.LogFile)
-	defer func(f *os.File) { f.Close() }(app.LogFile)
-
-	// Set initial logging; which is output Warning and higher to stdout.
-	// This may be overridden by configuration settings and flags.
-	app.SetLogging()
+	defer app.FlushLog()
 
 	// Get the command line args.
 	args := os.Args[1:]
 
 	// Initialize the application configuration.
 	app.SetConfig()
-
-	// After loading config, update loggingg. This may be overridden by flags.
-	app.SetLogging()
 
 	// Setup the args, Commands, and Help info.
 	cli := &cli.CLI{

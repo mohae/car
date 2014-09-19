@@ -1,9 +1,5 @@
 {
-	"logfile": "zapp.log",
 	"log":  true,
-        "loglevel": "debug",
-	"stdout": true,
-	"stdoutLevel": "debug",
 	"archiveformat": "tar",
 	"compressiontype": "gzip",
 	"verbose": true

@@ -1,7 +1,9 @@
 package app
 
 import (
+	log "github.com/cihub/seelog"
 	"github.com/mohae/contour"
+	"github.com/mohae/carchivum"
 )
 
 var (
@@ -9,21 +11,19 @@ var (
 	Name string = "car"
 
 	// ConfigFile is the name of the configuration file for the application.
-	ConfigFilename string = "app.json"
+	ConfigFile string = "app.json"
 
-	// Logfile is the name of the default log file for the application
-	LogFilename string = "app.log"
+	// LogConfigFile is the name for the log configuration file.
+	LogConfigFile string = "seelog.xml"
 )
 
 // Environment variables
 var (
-	EnvConfigFilename      string = "configfile"
-	EnvLogFormat	string = "logformat"
-	EnvLogFilename	string = "logfile"
+	EnvConfigFile      string = "configfile"
+
+	EnvLogConfigFile string = "logconfigfile"
 	EnvLog             string = "log"
-	EnvLogLevel        string = "loglevel"
-	EnvStdout          string = "stdout"
-	EnvStdoutLevel     string = "stdoutlevel"
+
 	EnvArchiveFormat   string = "archiveformat"
 	EnvCompressionType string = "compressiontype"
 	EnvVerbose         string = "verbose"
@@ -46,7 +46,7 @@ func init() {
 	// also sets the ConfigFile format automatically,based on the
 	// extension, if it can be determined. If it cannot, the extension is
 	// left blank and must be set.
-	contour.RegisterConfigFilename(EnvConfigFilename, ConfigFilename)
+	contour.RegisterConfigFilename(EnvConfigFile, ConfigFile)
 
 	//// Alternative way, manually setting the values
 	//contour.RegisterString("configfilename", ConfigFilename)
@@ -54,7 +54,7 @@ func init() {
 
 	// Core settings are only settable by the application, and once set are
 	// immutable
-	contour.RegisterCoreString("appname", Name)
+	contour.RegisterCoreString("name", Name)
 
 	// Immutable settings are only settable once. If its value isn't set
 	// during registration, it can be set at a later time. Once it is set,
@@ -72,11 +72,8 @@ func init() {
 
 	// Logging and output related
 	contour.RegisterFlagBool(EnvLog, true, "l")
-	contour.RegisterFlagString(EnvLogFilename, LogFilename, "f")
-	contour.RegisterFlagString(EnvLogLevel, "debug", "")
-	contour.RegisterFlagBool(EnvStdout, false, "s")
-	contour.RegisterFlagString(EnvStdoutLevel, "info", "")
 	contour.RegisterFlagBool(EnvVerbose, false, "v")
+	contour.RegisterFlagString(EnvLogConfigFile, LogConfigFile, "")
 
 	// AddSettingAlias sets an alias for the setting.
 	// contour doesn't support alias yet
@@ -110,4 +107,25 @@ func SetConfig() error {
 	//    also override certain settings. It may necessitate an additional
 	//    flag or two.
 	return contour.SetConfig()
+}
+
+// SetAppLog sets the logger for package loggers and allow for custom-
+// ization of the applications log. This is where app specific code for
+// setting up the application's log should be.
+//
+// SetAppLog assumes that log is enabled if it has been called as its
+// caller should be SetLog(). If you are going to call this from elsewhere,
+// first make sure that log is enabled.
+//
+// This uses seelog.
+func SetAppLogging() {
+	contour.UseLogger(logger)
+	carchivum.UseLogger(logger)
+	return
+}
+
+func AppFlushLog() {
+	contour.FlushLog()
+	carchivum.FlushLog()
+	log.Flush()
 }
