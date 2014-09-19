@@ -37,9 +37,8 @@ func Create(destination string, sources ...string) (string, error) {
 		return message, err
 	}
 
-	logger.Debugf("dateformat: %s\n")
-
 	archive.SetDateFormat(contour.GetString("dateformat"))
+	logger.Debugf("dateformat: %s\n", contour.GetString("dateformat"))
 	
 	message, err = archive.Create(destination, sources...)
 	if err != nil {

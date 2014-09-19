@@ -1,6 +1,6 @@
 <seelog>
     <outputs formatid="std:fast">
-	<filter levels="info, error, warn, critical">
+	<filter levels="debug, info, error, warn, critical">
 	        <file path="app.log" formatid="std:debug-short"/>
 	</filter>
 	<filter levels="error, warn, critical" formatid="stderr">
