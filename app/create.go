@@ -3,54 +3,71 @@ package app
 import (
 	"fmt"
 	"strconv"
-	"time"
 
-	arch "github.com/mohae/carchivum"
+	car "github.com/mohae/carchivum"
 	"github.com/mohae/contour"
 )
 
 func Create(destination string, sources ...string) (string, error) {
-	t0 := time.Now()
 	var err error
 	var message string
 
-	fmt.Println(EnvLog, strconv.FormatBool(contour.GetBool(EnvLog)))
-	fmt.Println(EnvVerbose, strconv.FormatBool(contour.GetBool(EnvVerbose)))
-	fmt.Println(EnvArchiveFormat, contour.GetString(EnvArchiveFormat))
-	fmt.Println(EnvCompressionType, contour.GetString(EnvCompressionType))
+	fmt.Println(CfgLog, strconv.FormatBool(contour.GetBool(CfgLog)))
+	fmt.Println(CfgFormat, contour.GetString(CfgFormat))
+	fmt.Println(CfgType, contour.GetString(CfgType))
 
 	logger.Debugf("Creating archive %s", destination)
 
-	logger.Infof("Log: %s", strconv.FormatBool(contour.GetBool(EnvLog)))
+	logger.Infof("Log: %s", strconv.FormatBool(contour.GetBool(CfgLog)))
 
 	fmt.Printf("\nCreate %q from %v\n", destination, sources)
-	archive := arch.NewArchive()
-	err = archive.SetFormat(contour.GetString(EnvArchiveFormat))
-	if err != nil {
-		logger.Error(err)
-		return message, err
-	}
-
-	err = archive.SetCompressionType(contour.GetString(EnvCompressionType))
-	if err != nil {
-		logger.Error(err)
-		return message, err
-	}
-
-	archive.SetDateFormat(contour.GetString("dateformat"))
-	logger.Debugf("dateformat: %s\n", contour.GetString("dateformat"))
 	
-	message, err = archive.Create(destination, sources...)
-	if err != nil {
-		logger.Error(err)
-		return message, err
+	switch contour.GetString(CfgFormat) {
+	case "tar":
+		message, err =createTar(destination, sources...)
+	case "zip":
+		message, err =createZip(destination, sources...)
+	default:
+		err = fmt.Errorf("%s not supported", contour.GetString(CfgFormat))
 	}
 
-	// message = fmr.Sprintf("%s created from: %s in %d seconds\n", destination, sources, archive.Time())
-	Δt := float64(time.Now().Sub(t0)) / 1e9
-	elapsed := fmt.Sprintf("Create process complete: %.4f seconds", Δt)
-	message = elapsed
-	logger.Debugf("%s created in %.4f seconds", destination, Δt)
+	if err != nil {
+		logger.Error(err)
+		return "", err
+	}
 
 	return message, nil
 }
+
+func createZip(destination string, sources ...string) (string, error) {
+	var err error
+
+	logger.Debugf("Creating zip: %s from %s", destination, sources)
+	zipper := car.NewZipArchive()
+	zipper.Name = destination
+	zipper.UseFullpath = contour.GetBool("usefullpath")
+	_, err = zipper.CreateFile(destination, sources...)
+	if err != nil {
+		logger.Error(err)
+		return "", err
+	}
+
+	return zipper.Message(), nil
+}
+
+func createTar(destination string, sources ...string) (string, error) {
+	var err error
+
+	logger.Debugf("Creating tar: %s from %s", destination, sources)
+	tballer := car.NewTar()
+	tballer.Name = destination
+	tballer.UseFullpath = contour.GetBool("usefullpath")
+	_, err = tballer.CreateFile(destination, sources...)
+	if err != nil {
+		logger.Error(err)
+		return "", err
+	}
+
+	return tballer.Message(), nil
+}
+

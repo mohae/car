@@ -16,4 +16,10 @@ Car also is a development tool for working on the underlying archiving packages.
 Lastly, `car` will be cross-platform in the near future, meaning I can have a command-line tool for creating archives and compressing things on Windows.
 
 ## Status
-Not working, under development.
+Create command for creating a compressed archvie file from a list of sources is working:
+  * suppports gzip/tar
+  * supports zip
+  * supports fullpath/relative path
+  * supports logging
+
+Additional functionality will be added as [Carchivum](https://github.com/mohae/carchivum) functionality expands.

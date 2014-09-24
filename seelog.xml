@@ -14,9 +14,9 @@
 	</filter>
     </outputs>
     <formats> 
-        <format id = "detailed" format= "%Date %Time [%Level] %File-%FuncShort:%Line: %Msg%EscM(0)%n" /> 
+        <format id = "detailed" format= "%Date %Time [%Level] %File(%Line): %Msg%EscM(0)%n" /> 
         <format id = "stdinfo" format = "%Date %Time %EscM(32)[%Level]%EscM(39) %Msg%EscM(0)%n" /> 
-	<format id = "stderr" format= "%Date %Time %EscM(31)[%Level]%EscM(39) %EscM(31)%File-%FuncShort(%Line):%EscM(39) %Msg%EscM(0)%n" />
+	<format id = "stderr" format= "%Date %Time %EscM(31)[%Level]%EscM(39) %EscM(31)%File(%Line):%EscM(39) %Msg%EscM(0)%n" />
 	<format id = "stddetailed" format= "%Time %EscM(33)[%Level]%EscM(39) %EscM(33)%File-%FuncShort(%Line):%EscM(39) %Msg%EscM(0)%n" />
     </formats> 
 </seelog>

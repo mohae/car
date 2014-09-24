@@ -3,7 +3,7 @@ package app
 import (
 	log "github.com/cihub/seelog"
 	"github.com/mohae/contour"
-	"github.com/mohae/carchivum"
+	car "github.com/mohae/carchivum"
 )
 
 var (
@@ -17,16 +17,13 @@ var (
 	LogConfigFile string = "seelog.xml"
 )
 
-// Environment variables
+// Variables for configuration entries, or just hard code them.
 var (
-	EnvConfigFile      string = "configfile"
-
-	EnvLogConfigFile string = "logconfigfile"
-	EnvLog             string = "log"
-
-	EnvArchiveFormat   string = "archiveformat"
-	EnvCompressionType string = "compressiontype"
-	EnvVerbose         string = "verbose"
+	CfgConfigFile      string = "configfile"
+	CfgLogConfigFile string = "logconfigfile"
+	CfgLog             string = "log"
+	CfgFormat   string = "format"
+	CfgType string = "type"
 )
 
 // Application config.
@@ -46,7 +43,7 @@ func init() {
 	// also sets the ConfigFile format automatically,based on the
 	// extension, if it can be determined. If it cannot, the extension is
 	// left blank and must be set.
-	contour.RegisterConfigFilename(EnvConfigFile, ConfigFile)
+	contour.RegisterConfigFilename(CfgConfigFile, ConfigFile)
 
 	//// Alternative way, manually setting the values
 	//contour.RegisterString("configfilename", ConfigFilename)
@@ -71,14 +68,12 @@ func init() {
 	// if this flag doesn't support a shortcode.
 
 	// Logging and output related
-	contour.RegisterFlagBool(EnvLog, true, "l")
-	contour.RegisterFlagBool(EnvVerbose, false, "v")
-	contour.RegisterFlagString(EnvLogConfigFile, LogConfigFile, "")
+	contour.RegisterFlagBool(CfgLog, false, "l")
+	contour.RegisterFlagString(CfgLogConfigFile, LogConfigFile, "g")
 
 	// AddSettingAlias sets an alias for the setting.
 	// contour doesn't support alias yet
-	//	contour.AddSettingAlias(EnvLog, "logenabled")
-
+	//	contour.AddSettingAlias(CfgLog, "logenabled")
 	initApp()
 
 	// Now that the configuration in
@@ -86,8 +81,9 @@ func init() {
 
 // InitApp is the best place to add custom defaults for your application,
 func initApp() {
-	contour.RegisterFlagString("archiveformat", "tar", "f")
-	contour.RegisterFlagString("compressiontype", "gzip", "t")
+	contour.RegisterFlagString(CfgFormat,"tar", "f")
+	contour.RegisterFlagString(CfgType, "gzip", "t")
+	contour.RegisterFlagBool("usefullpath", false, "u")
 }
 
 // InitConfig initialized the application's configuration. When the config is
@@ -120,12 +116,18 @@ func SetConfig() error {
 // This uses seelog.
 func SetAppLogging() {
 	contour.UseLogger(logger)
-	carchivum.UseLogger(logger)
+	car.UseLogger(logger)
+	return
+}
+
+func DisableAppLogging() {
+	contour.DisableLog()
+	car.DisableLog()
 	return
 }
 
 func AppFlushLog() {
 	contour.FlushLog()
-	carchivum.FlushLog()
+	car.FlushLog()
 	log.Flush()
 }
