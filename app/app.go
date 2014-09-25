@@ -2,8 +2,8 @@ package app
 
 import (
 	log "github.com/cihub/seelog"
-	"github.com/mohae/contour"
 	car "github.com/mohae/carchivum"
+	"github.com/mohae/contour"
 )
 
 var (
@@ -19,11 +19,11 @@ var (
 
 // Variables for configuration entries, or just hard code them.
 var (
-	CfgConfigFile      string = "configfile"
+	CfgConfigFile    string = "configfile"
 	CfgLogConfigFile string = "logconfigfile"
-	CfgLog             string = "log"
-	CfgFormat   string = "format"
-	CfgType string = "type"
+	CfgLog           string = "log"
+	CfgFormat        string = "format"
+	CfgType          string = "type"
 )
 
 // Application config.
@@ -81,9 +81,11 @@ func init() {
 
 // InitApp is the best place to add custom defaults for your application,
 func initApp() {
-	contour.RegisterFlagString(CfgFormat,"tar", "f")
+	contour.RegisterFlagString(CfgFormat, "tar", "f")
 	contour.RegisterFlagString(CfgType, "gzip", "t")
 	contour.RegisterFlagBool("usefullpath", false, "u")
+	contour.RegisterFlagString("exclude", "", "e")
+	contour.RegisterFlagString("include", "", "i")
 }
 
 // InitConfig initialized the application's configuration. When the config is

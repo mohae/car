@@ -12,21 +12,13 @@ func Create(destination string, sources ...string) (string, error) {
 	var err error
 	var message string
 
-	fmt.Println(CfgLog, strconv.FormatBool(contour.GetBool(CfgLog)))
-	fmt.Println(CfgFormat, contour.GetString(CfgFormat))
-	fmt.Println(CfgType, contour.GetString(CfgType))
-
-	logger.Debugf("Creating archive %s", destination)
-
-	logger.Infof("Log: %s", strconv.FormatBool(contour.GetBool(CfgLog)))
-
 	fmt.Printf("\nCreate %q from %v\n", destination, sources)
-	
+
 	switch contour.GetString(CfgFormat) {
 	case "tar":
-		message, err =createTar(destination, sources...)
+		message, err = createTar(destination, sources...)
 	case "zip":
-		message, err =createZip(destination, sources...)
+		message, err = createZip(destination, sources...)
 	default:
 		err = fmt.Errorf("%s not supported", contour.GetString(CfgFormat))
 	}
@@ -70,4 +62,3 @@ func createTar(destination string, sources ...string) (string, error) {
 
 	return tballer.Message(), nil
 }
-
