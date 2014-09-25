@@ -1,13 +1,13 @@
 package command
 
 import (
-	"flag"
 	"fmt"
 	"strings"
 
 	"github.com/mohae/car/app"
 	"github.com/mohae/cli"
 	"github.com/mohae/contour"
+	flag "github.com/ogier/pflag"
 )
 
 // CreateCommand is a Command implementation that says hello world
