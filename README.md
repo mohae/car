@@ -33,6 +33,8 @@ Supported operations:
 Operation modifiers:
 
 ```
+-D, --remove-files              remove files after adding them to the archive
+    --delete-files              alias to -D
 -k, --keep-old-files            don't replace existing files when extracting
     --keep-newer-files          don't replace existing files that are newer
                                 than their archive copies
@@ -64,7 +66,7 @@ Local file selection:
     --include-anchored          include patterns match file name start
     --wildcards                 patterns use wildcards
     --no-wildcards              patterns do not use wildcards
--N, --newer=DATE                only store files newer than DATE
+-N, --newer=DATE-OR-FILE        only store files newer than DATE or FILE
 -M, --newer-mtime=DATE          only stores files modified since DATE
     --after-date=DATE           same as -N
     --newer-file=FILENAME       only store files newer than the DATE for
