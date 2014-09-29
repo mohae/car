@@ -43,7 +43,7 @@ func init() {
 	// also sets the ConfigFile format automatically,based on the
 	// extension, if it can be determined. If it cannot, the extension is
 	// left blank and must be set.
-	contour.RegisterConfigFilename(CfgConfigFile, ConfigFile)
+	contour.RegisterConfigFilename(ConfigFile)
 
 	//// Alternative way, manually setting the values
 	//contour.RegisterString("configfilename", ConfigFilename)
@@ -68,8 +68,8 @@ func init() {
 	// if this flag doesn't support a shortcode.
 
 	// Logging and output related
-	contour.RegisterBoolFlag(CfgLog, "l", false)
-	contour.RegisterStringFlag(CfgLogConfigFile, "g", LogConfigFile)
+	contour.RegisterBoolFlag(CfgLog, "l", false, "enable/disable logging")
+	contour.RegisterStringFlag(CfgLogConfigFile, "g", LogConfigFile, "name of the log configuration file")
 
 	// AddSettingAlias sets an alias for the setting.
 	// contour doesn't support alias yet
@@ -81,37 +81,37 @@ func init() {
 
 // InitApp is the best place to add custom defaults for your application,
 func initApp() {
-	contour.RegisterStringFlag(CfgFormat, "f", "tar")
-	contour.RegisterStringFlag(CfgType, "t", "gzip")
-	contour.RegisterBoolFlag("usefullpath", "u", false)
+	contour.RegisterStringFlag(CfgFormat, "f", "tar", "create an archive using the tar format")
+	contour.RegisterStringFlag(CfgType, "t", "gzip", "create an archive using the zip format")
+//	contour.RegisterBoolFlag("usefullpath", "u", false, ")
 
 	// Operation Modifiers
-	contour.RegisterBoolFlag("keep-old-files", "k", true)
-	contour.RegisterBoolFlag("keep-newer-files", "", false)
-	contour.RegisterBoolFlag("overwrite", "", false)
-	contour.RegisterBoolFlag("atime-preserve", "", true)
-	contour.RegisterBoolFlag("modification-time", "m", false)
-	contour.RegisterBoolFlag("same-owner", "", true)
-	contour.RegisterBoolFlag("no-same-owner", "", false)
-	contour.RegisterBoolFlag("numeric-owner", "", false)
-	contour.RegisterBoolFlag("same-permissions", "p", true)
-	contour.RegisterBoolFlag("no-same-permissions", "", false)
-	contour.RegisterStringFlag("owner", "", "")
-	contour.RegisterStringFlag("group", "", "")
-	contour.RegisterStringFlag("mode", "", "")
+//	contour.RegisterBoolFlag("keep-old-files", "k", true, ")
+//	contour.RegisterBoolFlag("keep-newer-files", "", false)
+//	contour.RegisterBoolFlag("overwrite", "", false)
+//	contour.RegisterBoolFlag("atime-preserve", "", true)
+//	contour.RegisterBoolFlag("modification-time", "m", false)
+//	contour.RegisterBoolFlag("same-owner", "", true)
+//	contour.RegisterBoolFlag("no-same-owner", "", false)
+//	contour.RegisterBoolFlag("numeric-owner", "", false)
+//	contour.RegisterBoolFlag("same-permissions", "p", true)
+//	contour.RegisterBoolFlag("no-same-permissions", "", false)
+//	contour.RegisterStringFlag("owner", "", "")
+//	contour.RegisterStringFlag("group", "", "")
+//	contour.RegisterStringFlag("mode", "", "")
 
 	// Local file selection
-	contour.RegisterStringFlag("exclude", "", "")
-	contour.RegisterStringFlag("exclude-ext", "e", "")
-	contour.RegisterStringFlag("exclude-anchored", "", "")
-	contour.RegisterStringFlag("include", "", "")
-	contour.RegisterStringFlag("include-ext", "i", "")
-	contour.RegisterStringFlag("include-anchored", "", "")
-	contour.RegisterStringFlag("wildcards", "", "")
-	contour.RegisterStringFlag("no-wildcards", "", "")
-	contour.RegisterStringFlag("newer", "N", "")
-	contour.RegisterStringFlag("newer-mtime", "M", "")
-	contour.RegisterStringFlag("newer-file", "", "")
+//	contour.RegisterStringFlag("exclude", "", "")
+//	contour.RegisterStringFlag("exclude-ext", "e", "")
+//	contour.RegisterStringFlag("exclude-anchored", "", "")
+//	contour.RegisterStringFlag("include", "", "")
+//	contour.RegisterStringFlag("include-ext", "i", "")
+//	contour.RegisterStringFlag("include-anchored", "", "")
+//	contour.RegisterStringFlag("wildcards", "", "")
+//	contour.RegisterStringFlag("no-wildcards", "", "")
+//	contour.RegisterStringFlag("newer", "N", "")
+//	contour.RegisterStringFlag("newer-mtime", "M", "")
+//	contour.RegisterStringFlag("newer-file", "", "")
 
 	// Register option aliases
 	//	contour.RegisterFlagAlias("newer-date", "after-date")
