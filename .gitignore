@@ -34,3 +34,5 @@ car
 *.tgz
 *.tar.gz
 *.car.gz
+./temp*
+./z*
