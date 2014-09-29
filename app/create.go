@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	car "github.com/mohae/carchivum"
-	"github.com/mohae/contour"
+	contour "github.com/mohae/contourp"
 )
 
 func Create(destination string, sources ...string) (string, error) {

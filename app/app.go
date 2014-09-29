@@ -3,7 +3,7 @@ package app
 import (
 	log "github.com/cihub/seelog"
 	car "github.com/mohae/carchivum"
-	"github.com/mohae/contour"
+	contour "github.com/mohae/contourp"
 )
 
 var (
@@ -51,7 +51,7 @@ func init() {
 
 	// Core settings are only settable by the application, and once set are
 	// immutable
-	contour.RegisterCoreString("name", Name)
+	contour.RegisterStringCore("name", Name)
 
 	// Immutable settings are only settable once. If its value isn't set
 	// during registration, it can be set at a later time. Once it is set,
@@ -68,8 +68,8 @@ func init() {
 	// if this flag doesn't support a shortcode.
 
 	// Logging and output related
-	contour.RegisterFlagBool(CfgLog, false, "l")
-	contour.RegisterFlagString(CfgLogConfigFile, LogConfigFile, "g")
+	contour.RegisterBoolFlag(CfgLog, "l", false)
+	contour.RegisterStringFlag(CfgLogConfigFile, "g", LogConfigFile)
 
 	// AddSettingAlias sets an alias for the setting.
 	// contour doesn't support alias yet
@@ -81,11 +81,41 @@ func init() {
 
 // InitApp is the best place to add custom defaults for your application,
 func initApp() {
-	contour.RegisterFlagString(CfgFormat, "tar", "f")
-	contour.RegisterFlagString(CfgType, "gzip", "t")
-	contour.RegisterFlagBool("usefullpath", false, "u")
-	contour.RegisterFlagString("exclude", "", "e")
-	contour.RegisterFlagString("include", "", "i")
+	contour.RegisterStringFlag(CfgFormat, "f", "tar")
+	contour.RegisterStringFlag(CfgType, "t", "gzip")
+	contour.RegisterBoolFlag("usefullpath", "u", false)
+
+	// Operation Modifiers
+	contour.RegisterBoolFlag("keep-old-files", "k", true)
+	contour.RegisterBoolFlag("keep-newer-files", "", false)
+	contour.RegisterBoolFlag("overwrite", "", false)
+	contour.RegisterBoolFlag("atime-preserve", "", true)
+	contour.RegisterBoolFlag("modification-time", "m", false)
+	contour.RegisterBoolFlag("same-owner", "", true)
+	contour.RegisterBoolFlag("no-same-owner", "", false)
+	contour.RegisterBoolFlag("numeric-owner", "", false)
+	contour.RegisterBoolFlag("same-permissions", "p", true)
+	contour.RegisterBoolFlag("no-same-permissions", "", false)
+	contour.RegisterStringFlag("owner", "", "")
+	contour.RegisterStringFlag("group", "", "")
+	contour.RegisterStringFlag("mode", "", "")
+
+	// Local file selection
+	contour.RegisterStringFlag("exclude", "", "")
+	contour.RegisterStringFlag("exclude-ext", "e", "")
+	contour.RegisterStringFlag("exclude-anchored", "", "")
+	contour.RegisterStringFlag("include", "", "")
+	contour.RegisterStringFlag("include-ext", "i", "")
+	contour.RegisterStringFlag("include-anchored", "", "")
+	contour.RegisterStringFlag("wildcards", "", "")
+	contour.RegisterStringFlag("no-wildcards", "", "")
+	contour.RegisterStringFlag("newer", "N", "")
+	contour.RegisterStringFlag("newer-mtime", "M", "")
+	contour.RegisterStringFlag("newer-file", "", "")
+
+	// Register option aliases
+	//	contour.RegisterFlagAlias("newer-date", "after-date")
+	//	contour.RegisterFlagAlias("same-permissions", "preserve-permissions")
 }
 
 // InitConfig initialized the application's configuration. When the config is

@@ -6,8 +6,7 @@ import (
 
 	"github.com/mohae/car/app"
 	"github.com/mohae/cli"
-	"github.com/mohae/contour"
-	flag "github.com/ogier/pflag"
+	contour "github.com/mohae/contourp"
 )
 
 // CreateCommand is a Command implementation that says hello world
@@ -40,14 +39,13 @@ create supports the following flags(Type):
 // to append to hello.
 func (c *CreateCommand) Run(args []string) int {
 	// set up the command flags
-	cmdFlags := flag.NewFlagSet("run", flag.ContinueOnError)
-	cmdFlags.Usage = func() {
+	contour.Usage(func() {
 		c.UI.Output(c.Help())
-	}
+	})
 
 	// Filter the flags from the args and update the config with them.
 	// The args remaining after being filtered are returned.
-	filteredArgs, err := contour.FilterArgs(cmdFlags, args)
+	filteredArgs, err := contour.FilterArgs(args)
 	if err != nil {
 		c.UI.Error(err.Error())
 		return 1

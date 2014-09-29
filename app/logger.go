@@ -3,11 +3,12 @@ package app
 
 import (
 	log "github.com/cihub/seelog"
-	"github.com/mohae/contour"
+	contour "github.com/mohae/contourp"
 )
 
 var loggingFinalized bool
 var logger log.LoggerInterface
+
 //var LogFile *os.File
 
 func init() {
