@@ -34,9 +34,9 @@ Operation modifiers:
 
 ```
 create:
-    --owner=NAME                force NAME as owner for added files
-    --group=NAME                force NAME as group for added files
-    --mode=CHANGES              force (symboloc) mode CHANGES for added files
+    --owner=UID             force UID as owner for added files
+    --group=GID                 force GID as group for added files
+    --mode=MASK              force MASK as mode for added files
 
 
 NOT IMPLEMENTED

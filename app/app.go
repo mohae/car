@@ -83,6 +83,10 @@ func init() {
 func initApp() {
 	contour.RegisterStringFlag(CfgFormat, "f", "tar", "create an archive using the tar format")
 	contour.RegisterStringFlag(CfgType, "t", "gzip", "create an archive using the zip format")
+	contour.RegisterIntFlag("owner", "", 0, "force UID as owner for added files")
+	contour.RegisterIntFlag("group", "", 0, "force GID as group for added files")
+	contour.RegisterInt64Flag("mode", "", 0, "force MASK as mode for added files")
+
 //	contour.RegisterBoolFlag("usefullpath", "u", false, ")
 
 	// Operation Modifiers
@@ -96,9 +100,6 @@ func initApp() {
 //	contour.RegisterBoolFlag("numeric-owner", "", false)
 //	contour.RegisterBoolFlag("same-permissions", "p", true)
 //	contour.RegisterBoolFlag("no-same-permissions", "", false)
-//	contour.RegisterStringFlag("owner", "", "")
-//	contour.RegisterStringFlag("group", "", "")
-//	contour.RegisterStringFlag("mode", "", "")
 
 	// Local file selection
 //	contour.RegisterStringFlag("exclude", "", "")

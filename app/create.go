@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"os"
 
 	car "github.com/mohae/carchivum"
 	contour "github.com/mohae/contourp"
@@ -52,6 +53,10 @@ func createTar(destination string, sources ...string) (string, error) {
 	logger.Debugf("Creating tar: %s from %s", destination, sources)
 	tballer := car.NewTar()
 	tballer.Name = destination
+	tballer.Owner = contour.GetInt("owner")
+	tballer.Group = contour.GetInt("group")
+	tballer.Mode = os.FileMode(contour.GetInt64("mode"))
+
 	tballer.UseFullpath = contour.GetBool("usefullpath")
 	_, err = tballer.CreateFile(destination, sources...)
 	if err != nil {
