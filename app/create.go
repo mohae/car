@@ -63,6 +63,9 @@ func createTar(destination string, sources ...string) (string, error) {
 	tballer.ExcludeExtCount = len(tballer.ExcludeExt)
 
 	tballer.IncludeAnchored = contour.GetString("include-anchored")
+	tballer.IncludeExt = strings.Split(contour.GetString("include-ext"), ",")
+	tballer.IncludeExtCount = len(tballer.IncludeExt)
+
 
 	tballer.UseFullpath = contour.GetBool("usefullpath")
 	_, err = tballer.CreateFile(destination, sources...)
