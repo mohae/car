@@ -114,8 +114,8 @@ func initApp() {
 	contour.RegisterStringFlag("include-anchored", "", "", "include patterns match file name start")
 //	contour.RegisterBoolFlag("wildcards", "", false, "patterns use wildcards")
 //	contour.RegisterBoolFlag("no-wildcards", "", true, "patters do not use wildcards")
-//	contour.RegisterStringFlag("newer", "N", "", "only store files newer than DATE or File")
-//	contour.RegisterStringFlag("newer-mtime", "M", "only st ore files modified since DATE")
+	contour.RegisterStringFlag("newer", "N", "", "only store files newer than DATE or File")
+	contour.RegisterStringFlag("newer-mtime", "M", "only st ore files modified since DATE")
 //	contour.RegisterStringFlag("newer-file", "", "only store files newere than the DATE for FILENAMEE")
 
 
