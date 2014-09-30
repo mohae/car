@@ -83,36 +83,43 @@ func init() {
 func initApp() {
 	contour.RegisterStringFlag(CfgFormat, "f", "tar", "create an archive using the tar format")
 	contour.RegisterStringFlag(CfgType, "t", "gzip", "create an archive using the zip format")
+
+	// Create operation modifiers
 	contour.RegisterIntFlag("owner", "", 0, "force UID as owner for added files")
 	contour.RegisterIntFlag("group", "", 0, "force GID as group for added files")
 	contour.RegisterInt64Flag("mode", "", 0, "force MASK as mode for added files")
 
+	
 //	contour.RegisterBoolFlag("usefullpath", "u", false, ")
+	
+	// Extract Operation Modifiers
+//	contour.RegisterBoolFlag("keep-old-files", "k", false, "don't replace existing files when extracting")
+//	contour.RegisterBoolFlag("keep-newer-files", "", false, "don't replace existing files that are newer than their archive copies")
+//	contour.RegisterBoolFlag("overwrite", "", true, "overwrite existing files when extracting")
+////	contour.RegisterBoolFlag("atime-preserve", "", true)
+//	contour.RegisterBoolFlag("modification-time", "m", false, "don't extract file modified time")
+//	contour.RegisterBoolFlag("same-owner", "", true, "try extracting files with the same ownership")
+//	contour.RegisterBoolFlag("no-same-owner", "", false, "extract files as yourself")
+//	contour.RegisterBoolFlag("numeric-owner", "", true, "always use numbers for user/group names")
+//	contour.RegisterBoolFlag("same-permissions", "p", true, "extract permissions information")
+//	contour.RegisterBoolFlag("no-same-permissions", "", false, "do not extract permissions information")
 
-	// Operation Modifiers
-//	contour.RegisterBoolFlag("keep-old-files", "k", true, ")
-//	contour.RegisterBoolFlag("keep-newer-files", "", false)
-//	contour.RegisterBoolFlag("overwrite", "", false)
-//	contour.RegisterBoolFlag("atime-preserve", "", true)
-//	contour.RegisterBoolFlag("modification-time", "m", false)
-//	contour.RegisterBoolFlag("same-owner", "", true)
-//	contour.RegisterBoolFlag("no-same-owner", "", false)
-//	contour.RegisterBoolFlag("numeric-owner", "", false)
-//	contour.RegisterBoolFlag("same-permissions", "p", true)
-//	contour.RegisterBoolFlag("no-same-permissions", "", false)
+	// Create Operation Local file selection
+	contour.RegisterBoolFlag("delete-files", "D", false, "remove files after adding them to the archive")
+	contour.RegisterStringFlag("exclude", "", "", "exclude files, given as a PATTERN")
+	contour.RegisterStringFlag("exclude-ext", "e", "", "exclude files with EXTENSIONS")
+	contour.RegisterStringFlag("exclude-anchored", "", "", "exclude patterns match file name start")
+	contour.RegisterStringFlag("include", "", "", "include files, given as a PATTERN")
+	contour.RegisterStringFlag("include-ext", "i", "", "include files with EXTNESIONS")
+	contour.RegisterStringFlag("include-anchored", "", "", "include patterns match file name start")
+//	contour.RegisterBoolFlag("wildcards", "", false, "patterns use wildcards")
+//	contour.RegisterBoolFlag("no-wildcards", "", true, "patters do not use wildcards")
+//	contour.RegisterStringFlag("newer", "N", "", "only store files newer than DATE or File")
+//	contour.RegisterStringFlag("newer-mtime", "M", "only st ore files modified since DATE")
+//	contour.RegisterStringFlag("newer-file", "", "only store files newere than the DATE for FILENAMEE")
 
-	// Local file selection
-//	contour.RegisterStringFlag("exclude", "", "")
-//	contour.RegisterStringFlag("exclude-ext", "e", "")
-//	contour.RegisterStringFlag("exclude-anchored", "", "")
-//	contour.RegisterStringFlag("include", "", "")
-//	contour.RegisterStringFlag("include-ext", "i", "")
-//	contour.RegisterStringFlag("include-anchored", "", "")
-//	contour.RegisterStringFlag("wildcards", "", "")
-//	contour.RegisterStringFlag("no-wildcards", "", "")
-//	contour.RegisterStringFlag("newer", "N", "")
-//	contour.RegisterStringFlag("newer-mtime", "M", "")
-//	contour.RegisterStringFlag("newer-file", "", "")
+
+
 
 	// Register option aliases
 	//	contour.RegisterFlagAlias("newer-date", "after-date")

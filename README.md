@@ -56,12 +56,8 @@ extract:
       --no-same-permissions       do not extract permissions information
       --preserve-permissions      same as -p
 ```
-Archive format selection:
-```
--z, --gzip, --ungzip            filter the archive through gzip
-```
 
-NOT IMPLEMENTED
+NOT IMPLEMENTED  
 Local file selection:
 ```
 -C, --directory=DIR             change to directory DIR
