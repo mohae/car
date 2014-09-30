@@ -26,35 +26,42 @@ Most supported operations and their modifiers are not yet supported. These are d
 
 Supported operations:
 ```
-    -x, --extract, --get        extract files from an archive
-    -c, --create                create a new archive
+    extract               extract files from an archive
+    create                create a new archive
 
 ```
 Operation modifiers:
 
 ```
--D, --remove-files              remove files after adding them to the archive
-    --delete-files              alias to -D
--k, --keep-old-files            don't replace existing files when extracting
-    --keep-newer-files          don't replace existing files that are newer
-                                than their archive copies
-    --overwrite                 overwrite existing files when extracting
+create:
     --owner=NAME                force NAME as owner for added files
     --group=NAME                force NAME as group for added files
     --mode=CHANGES              force (symboloc) mode CHANGES for added files
-    --atime-preserve            don't change access time on dumped files
--m, --modification-time         don't extract file modified time
-    --same-owner                try extracting files with the same ownership
-    --no-same-owner             extract files as yourself
-    --numeric-owner             always use numbers for user/group names
--p, --same-permissions          extract permissions information
-    --no-same-permissions       do not extract permissions information
-    --preserve-permissions      same as -p
+
+
+NOT IMPLEMENTED
+extract:
+  -D, --remove-files              remove files after adding them to the archive
+      --delete-files              alias to -D
+  -k, --keep-old-files            don't replace existing files when extracting
+      --keep-newer-files          don't replace existing files that are newer
+                                than their archive copies
+      --overwrite                 overwrite existing files when extracting
+      --atime-preserve            don't change access time on dumped files
+  -m, --modification-time         don't extract file modified time
+      --same-owner                try extracting files with the same ownership
+      --no-same-owner             extract files as yourself
+      --numeric-owner             always use numbers for user/group names
+  -p, --same-permissions          extract permissions information
+      --no-same-permissions       do not extract permissions information
+      --preserve-permissions      same as -p
 ```
 Archive format selection:
 ```
 -z, --gzip, --ungzip            filter the archive through gzip
 ```
+
+NOT IMPLEMENTED
 Local file selection:
 ```
 -C, --directory=DIR             change to directory DIR
