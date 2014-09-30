@@ -3,6 +3,7 @@ package app
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	car "github.com/mohae/carchivum"
 	contour "github.com/mohae/contourp"
@@ -58,6 +59,8 @@ func createTar(destination string, sources ...string) (string, error) {
 	tballer.Mode = os.FileMode(contour.GetInt64("mode"))
 
 	tballer.ExcludeAnchored = contour.GetString("exclude-anchored")
+	tballer.ExcludeExt = strings.Split(contour.GetString("exclude-ext"), ",")
+	tballer.ExcludeExtCount = len(tballer.ExcludeExt)
 
 	tballer.IncludeAnchored = contour.GetString("include-anchored")
 
