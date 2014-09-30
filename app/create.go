@@ -57,6 +57,8 @@ func createTar(destination string, sources ...string) (string, error) {
 	tballer.Group = contour.GetInt("group")
 	tballer.Mode = os.FileMode(contour.GetInt64("mode"))
 
+	tballer.ExcludeAnchored = contour.GetString("exclude-anchored")
+
 	tballer.UseFullpath = contour.GetBool("usefullpath")
 	_, err = tballer.CreateFile(destination, sources...)
 	if err != nil {
