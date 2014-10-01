@@ -56,8 +56,7 @@ extract:
       --no-same-permissions       do not extract permissions information
       --preserve-permissions      same as -p
 ```
-
-NOT IMPLEMENTED  
+  
 Local file selection:
 ```
 -C, --directory=DIR             change to directory DIR
@@ -66,6 +65,8 @@ Local file selection:
     --exclude-anchored          exclude patterns match file name start
     --include=PATTERN           include files, given as a PATTERN
     --include-ext=[EXTENSIONS]  include files with EXTENSIONS
+
+NOT IMPLEMENTED:
     --include-anchored          include patterns match file name start
     --wildcards                 patterns use wildcards
     --no-wildcards              patterns do not use wildcards
