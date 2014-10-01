@@ -1,17 +1,13 @@
 car
 ===
 
-Car is a tool for working with compressed archives.
+Car is a tool for working with compressed archives. Car is not meant to be a replacement for `tar` and is not necessarily tape/archive focused. Where possible, flags have been made to be consistent with `tar`'s flags, but not all of `tar`'s flags will be supported. Some flags may not be implemented in the exact manner as `tar`'s, but consistency with `tar`, where possible, is the goal.
 
-Tarballs are great, but they are not compressed by default, which is why the `c` flag is used with the `tar` command. 
+Even though `zip` is supported, it is minimally supported. Most options are for `tar` archives and compressed files only, not for `zip`.
 
-Zip files are great, for Windows users, they are combressed archives by default.
+Car is meant to be a simple tool, which helps me develope other things, including [Quine](https://github.com/mohae/quine), my cli application template, [Contour](https://github.com/mohae/contour), my configuration management package, [my cli fork](https://github.com/mohae/cli) of [mitchellh's cli package](https://github.com/mitchellh/cli), which allows me to work on some additional functionality before proposing the changes on Mitchell's CLI package. Due to Car's flag requirements, I have a fork of [ogier's pflage](https://github.com/ogier/pflag), [mohae's pflag](https://github.com/mohae/pflag) that adds support for time flags.
 
-Car understands both, and automatically compresses tarballs, using its default compression format, or specify one of the `car` supported formats.
-
-Car is meant to be a simple tool, which helps me develope other things, including [Quine](https://github.com/mohae/quine), my cli application template, [Contour](https://github.com/mohae/contour), my configuration management package, [my cli fork](https://github.com/mohae/cli) of [mitchellh's cli package](https://github.com/mitchellh/cli), which allows me to work on some additional functionality before proposing the changes on Mitchell's CLI package.
-
-Car also is a development tool for working on the underlying archiving packages.
+Car also is a development tool for working on the underlying archiving package.
 
 Lastly, `car` will be cross-platform in the near future, meaning I can have a command-line tool for creating archives and compressing things on Windows.
 
@@ -26,7 +22,7 @@ Most supported operations and their modifiers are not yet supported. These are d
 
 Supported operations:
 ```
-    extract               extract files from an archive
+    extract (not implemented) extract files from an archive
     create                create a new archive
 
 ```
@@ -59,20 +55,17 @@ extract:
   
 Local file selection:
 ```
--C, --directory=DIR             change to directory DIR
     --exclude=PATTERN           exclude files, given as a PATTERN
     --exclude-ext=[EXTENSIONS]  exclude files with EXTENSIONS
     --exclude-anchored          exclude patterns match file name start
     --include=PATTERN           include files, given as a PATTERN
     --include-ext=[EXTENSIONS]  include files with EXTENSIONS
+    --include-anchored          include patterns match file name start
+-M, --newer-mtime=DATE          only stores files modified since DATE
 
 NOT IMPLEMENTED:
-    --include-anchored          include patterns match file name start
     --wildcards                 patterns use wildcards
     --no-wildcards              patterns do not use wildcards
--N, --newer=DATE-OR-FILE        only store files newer than DATE or FILE
--M, --newer-mtime=DATE          only stores files modified since DATE
-    --after-date=DATE           same as -N
     --newer-file=FILENAME       only store files newer than the DATE for
                                 FILENAME
 ```
