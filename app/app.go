@@ -1,6 +1,8 @@
 package app
 
 import (
+	"time"
+
 	log "github.com/cihub/seelog"
 	car "github.com/mohae/carchivum"
 	contour "github.com/mohae/contourp"
@@ -28,7 +30,7 @@ var (
 
 // Application config.
 var Config = contour.AppConfig()
-
+var unsetTime time.Time
 // set-up the application defaults and let contour know about the app.
 // Setting also saves them to their relative environment variable.
 func init() {
@@ -114,8 +116,8 @@ func initApp() {
 	contour.RegisterStringFlag("include-anchored", "", "", "include patterns match file name start")
 //	contour.RegisterBoolFlag("wildcards", "", false, "patterns use wildcards")
 //	contour.RegisterBoolFlag("no-wildcards", "", true, "patters do not use wildcards")
-	contour.RegisterStringFlag("newer", "N", "", "only store files newer than DATE or File")
-	contour.RegisterStringFlag("newer-mtime", "M", "", "only store files modified since DATE")
+	contour.RegisterTimeFlag("newer", "N", unsetTime, "only store files newer than DATE or File")
+	contour.RegisterTimeFlag("newer-mtime", "M", unsetTime, "only store files modified since DATE")
 //	contour.RegisterStringFlag("newer-file", "", "only store files newere than the DATE for FILENAMEE")
 
 
