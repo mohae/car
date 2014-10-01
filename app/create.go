@@ -67,7 +67,8 @@ func createTar(destination string, sources ...string) (string, error) {
 	tballer.IncludeExt = strings.Split(contour.GetString("include-ext"), ",")
 	tballer.IncludeExtCount = len(tballer.IncludeExt)
 
-	tballer.NewerMTime = contour.GetString("newer-mtime")
+// TODO figure out how to convert the incoming time info to time.Time
+//	tballer.NewerMTime = contour.GetString("newer-mtime")
 //	tballer.UseFullpath = contour.GetBool("usefullpath")
 	_, err = tballer.CreateFile(destination, sources...)
 	if err != nil {
