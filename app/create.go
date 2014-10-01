@@ -60,15 +60,22 @@ func createTar(destination string, sources ...string) (string, error) {
 
 //	tabller.Exclude = contour.GetString("exclude")
 	tballer.ExcludeAnchored = contour.GetString("exclude-anchored")
-	tballer.ExcludeExt = strings.Split(contour.GetString("exclude-ext"), ",")
-	tballer.ExcludeExtCount = len(tballer.ExcludeExt)
+	temp := contour.GetString("exclude-ext")
+	if temp != "" {
+		tballer.ExcludeExt = strings.Split(temp, ",")
+		tballer.ExcludeExtCount = len(tballer.ExcludeExt)
+	}
+
 
 	tballer.IncludeAnchored = contour.GetString("include-anchored")
-	tballer.IncludeExt = strings.Split(contour.GetString("include-ext"), ",")
-	tballer.IncludeExtCount = len(tballer.IncludeExt)
+	temp = contour.GetString("include-ext")
+	if temp != "" {
+		tballer.IncludeExt = strings.Split(temp, ",")
+		tballer.IncludeExtCount = len(tballer.IncludeExt)
+	}
 
 // TODO figure out how to convert the incoming time info to time.Time
-//	tballer.NewerMTime = contour.GetString("newer-mtime")
+	tballer.NewerMTime = contour.GetTime("newer-mtime")
 //	tballer.UseFullpath = contour.GetBool("usefullpath")
 	_, err = tballer.CreateFile(destination, sources...)
 	if err != nil {
