@@ -9,7 +9,7 @@ import (
 
 // VersionCommand is a Command implementation that prints the version.
 type VersionCommand struct {
-	Name		string
+	Name              string
 	Revision          string
 	Version           string
 	VersionPrerelease string
