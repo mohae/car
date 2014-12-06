@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	car "github.com/mohae/carchivum"
-	contour "github.com/mohae/contourp"
+	"github.com/mohae/contour"
 )
 
 func Create(destination string, sources ...string) (string, error) {
@@ -74,7 +74,7 @@ func createTar(destination string, sources ...string) (string, error) {
 	}
 
 	// TODO figure out how to convert the incoming time info to time.Time
-	tballer.NewerMTime = contour.GetTime("newer-mtime")
+	// tballer.NewerMTime = contour.GetTime("newer-mtime")
 	//	tballer.UseFullpath = contour.GetBool("usefullpath")
 	_, err = tballer.CreateFile(destination, sources...)
 	if err != nil {

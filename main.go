@@ -47,7 +47,7 @@ func realMain() int {
 	args := os.Args[1:]
 
 	// Initialize the application configuration.
-	app.SetConfig()
+	app.SetCfg()
 
 	// Setup the args, Commands, and Help info.
 	cli := &cli.CLI{

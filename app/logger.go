@@ -3,7 +3,7 @@ package app
 
 import (
 	log "github.com/cihub/seelog"
-	contour "github.com/mohae/contourp"
+	"github.com/mohae/contour"
 )
 
 var loggingFinalized bool
@@ -34,7 +34,7 @@ func SetLogging() error {
 		return nil
 	}
 
-	logger, err = log.LoggerFromConfigAsFile(contour.GetString(CfgLogConfigFile))
+	logger, err = log.LoggerFromConfigAsFile(contour.GetString(CfgLogFile))
 	if err != nil {
 		return err
 	}

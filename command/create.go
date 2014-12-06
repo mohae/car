@@ -6,7 +6,7 @@ import (
 
 	"github.com/mohae/car/app"
 	"github.com/mohae/cli"
-	contour "github.com/mohae/contourp"
+	"github.com/mohae/contour"
 )
 
 // CreateCommand is a Command implementation that says hello world

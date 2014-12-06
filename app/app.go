@@ -5,7 +5,7 @@ import (
 
 	log "github.com/cihub/seelog"
 	car "github.com/mohae/carchivum"
-	contour "github.com/mohae/contourp"
+	"github.com/mohae/contour"
 )
 
 var (
@@ -13,23 +13,21 @@ var (
 	Name string = "car"
 
 	// ConfigFile is the name of the configuration file for the application.
-	ConfigFile string = "app.json"
+	CfgFilename string = "app.json"
 
 	// LogConfigFile is the name for the log configuration file.
-	LogConfigFile string = "seelog.xml"
+	LogCfgFilename string = "seelog.xml"
 )
 
 // Variables for configuration entries, or just hard code them.
 var (
-	CfgConfigFile    string = "configfile"
-	CfgLogConfigFile string = "logconfigfile"
-	CfgLog           string = "log"
-	CfgFormat        string = "format"
-	CfgType          string = "type"
+	CfgFile    string = "cfgfile"
+	CfgLogFile string = "logcfgfile"
+	CfgLog     string = "log"
+	CfgFormat  string = "format"
+	CfgType    string = "type"
 )
 
-// Application config.
-var Config = contour.AppConfig()
 var unsetTime time.Time
 
 // set-up the application defaults and let contour know about the app.
@@ -46,7 +44,7 @@ func init() {
 	// also sets the ConfigFile format automatically,based on the
 	// extension, if it can be determined. If it cannot, the extension is
 	// left blank and must be set.
-	contour.RegisterConfigFilename(ConfigFile)
+	contour.RegisterCfgFilename(CfgFile, CfgFilename)
 
 	//// Alternative way, manually setting the values
 	//contour.RegisterString("configfilename", ConfigFilename)
@@ -71,8 +69,8 @@ func init() {
 	// if this flag doesn't support a shortcode.
 
 	// Logging and output related
-	contour.RegisterBoolFlag(CfgLog, "l", false, "enable/disable logging")
-	contour.RegisterStringFlag(CfgLogConfigFile, "g", LogConfigFile, "name of the log configuration file")
+	contour.RegisterBoolFlag(CfgLog, "l", false, "false", "enable/disable logging")
+	contour.RegisterStringFlag(CfgLogFile, "g", LogCfgFilename, LogCfgFilename, "name of the log configuration file")
 
 	// AddSettingAlias sets an alias for the setting.
 	// contour doesn't support alias yet
@@ -84,13 +82,13 @@ func init() {
 
 // InitApp is the best place to add custom defaults for your application,
 func initApp() {
-	contour.RegisterStringFlag(CfgFormat, "f", "tar", "create an archive using the tar format")
-	contour.RegisterStringFlag(CfgType, "t", "gzip", "create an archive using the zip format")
+	contour.RegisterStringFlag(CfgFormat, "f", "tar", "tar", "create an archive using the tar format")
+	contour.RegisterStringFlag(CfgType, "t", "gzip", "gzip", "create an archive using the zip format")
 
 	// Create operation modifiers
-	contour.RegisterIntFlag("owner", "", 0, "force UID as owner for added files")
-	contour.RegisterIntFlag("group", "", 0, "force GID as group for added files")
-	contour.RegisterInt64Flag("mode", "", 0, "force MASK as mode for added files")
+	contour.RegisterIntFlag("owner", "", 0, "0", "force UID as owner for added files")
+	contour.RegisterIntFlag("group", "", 0, "0", "force GID as group for added files")
+	contour.RegisterInt64Flag("mode", "", 0, "0", "force MASK as mode for added files")
 
 	//	contour.RegisterBoolFlag("usefullpath", "u", false, ")
 
@@ -107,17 +105,17 @@ func initApp() {
 	//	contour.RegisterBoolFlag("no-same-permissions", "", false, "do not extract permissions information")
 
 	// Create Operation Local file selection
-	contour.RegisterBoolFlag("delete-files", "D", false, "remove files after adding them to the archive")
-	contour.RegisterStringFlag("exclude", "", "", "exclude files, given as a PATTERN")
-	contour.RegisterStringFlag("exclude-ext", "e", "", "exclude files with EXTENSIONS")
-	contour.RegisterStringFlag("exclude-anchored", "", "", "exclude patterns match file name start")
-	contour.RegisterStringFlag("include", "", "", "include files, given as a PATTERN")
-	contour.RegisterStringFlag("include-ext", "i", "", "include files with EXTENSIONS")
-	contour.RegisterStringFlag("include-anchored", "", "", "include patterns match file name start")
-	//	contour.RegisterBoolFlag("wildcards", "", false, "patterns use wildcards")
-	//	contour.RegisterBoolFlag("no-wildcards", "", true, "patters do not use wildcards")
+	contour.RegisterBoolFlag("delete-files", "D", false, "false", "remove files after adding them to the archive")
+	contour.RegisterStringFlag("exclude", "", "", "", "exclude files, given as a PATTERN")
+	contour.RegisterStringFlag("exclude-ext", "e", "", "", "exclude files with EXTENSIONS")
+	contour.RegisterStringFlag("exclude-anchored", "", "", "", "exclude patterns match file name start")
+	contour.RegisterStringFlag("include", "", "", "", "include files, given as a PATTERN")
+	contour.RegisterStringFlag("include-ext", "i", "", "", "include files with EXTENSIONS")
+	contour.RegisterStringFlag("include-anchored", "", "", "", "include patterns match file name start")
+	//	contour.RegisterBoolFlag("wildcards", "", false, "false", "patterns use wildcards")
+	//	contour.RegisterBoolFlag("no-wildcards", "", true, "true", "patters do not use wildcards")
 	//	contour.RegisterTimeFlag("newer", "N", unsetTime, "only store files newer than DATE or File")
-	contour.RegisterTimeFlag("newer-mtime", "M", unsetTime, "only store files modified since DATE")
+	//contour.RegisterTimeFlag("newer-mtime", "M", unsetTime, "not set", "only store files modified since DATE")
 	//	contour.RegisterStringFlag("newer-file", "", "only store files newere than the DATE for FILENAMEE")
 
 	// Register option aliases
@@ -131,7 +129,7 @@ func initApp() {
 // will all be merged according to the setting properties.
 //
 // After this, only overrides can occur via command flags.
-func SetConfig() error {
+func SetCfg() error {
 	// Set config:
 	//    Checks environment variables for settings, follows update rules.
 	//    Retrieves config file and applies those settings, if and where
@@ -141,7 +139,7 @@ func SetConfig() error {
 	//  If this is an interactive application, preference changes would
 	//    also override certain settings. It may necessitate an additional
 	//    flag or two.
-	return contour.SetConfig()
+	return contour.SetCfg()
 }
 
 // SetAppLog sets the logger for package loggers and allow for custom-
