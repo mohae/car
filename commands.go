@@ -18,13 +18,11 @@ func init() {
 				UI: ui,
 			}, nil
 		},
-		/*
-			"delete": func() (cli.Command, error) {
-				return &command.DeleteCommand{
-					UI: ui,
-				}, nil
-			},
-		*/
+		"extract": func() (cli.Command, error) {
+			return &command.ExtractCommand{
+				UI: ui,
+			}, nil
+		},
 		"version": func() (cli.Command, error) {
 			return &command.VersionCommand{
 				Revision:          GitCommit,
