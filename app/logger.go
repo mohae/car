@@ -2,6 +2,8 @@
 package app
 
 import (
+	"strconv"
+
 	log "github.com/cihub/seelog"
 	"github.com/mohae/contour"
 )
@@ -29,7 +31,12 @@ func DisableLog() {
 func SetLogging() error {
 	var err error
 
-	if !contour.GetBool(CfgLog) {
+	b, err := strconv.ParseBool(contour.GetBool(CfgLog))
+	if err != nil {
+		DisableLog()
+		return nil
+	}
+	if !b {
 		DisableLog()
 		return nil
 	}

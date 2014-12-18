@@ -69,7 +69,7 @@ func init() {
 	// if this flag doesn't support a shortcode.
 
 	// Logging and output related
-	contour.RegisterBoolFlag(CfgLog, "l", false, "false", "enable/disable logging")
+	contour.RegisterBoolFlag(CfgLog, "l", "0", "false", "enable/disable logging")
 	contour.RegisterStringFlag(CfgLogFile, "g", LogCfgFilename, LogCfgFilename, "name of the log configuration file")
 
 	// AddSettingAlias sets an alias for the setting.
@@ -105,7 +105,7 @@ func initApp() {
 	//	contour.RegisterBoolFlag("no-same-permissions", "", false, "do not extract permissions information")
 
 	// Create Operation Local file selection
-	contour.RegisterBoolFlag("delete-files", "D", false, "false", "remove files after adding them to the archive")
+	contour.RegisterBoolFlag("delete-files", "D", "0", "false", "remove files after adding them to the archive")
 	contour.RegisterStringFlag("exclude", "", "", "", "exclude files, given as a PATTERN")
 	contour.RegisterStringFlag("exclude-ext", "e", "", "", "exclude files with EXTENSIONS")
 	contour.RegisterStringFlag("exclude-anchored", "", "", "", "exclude patterns match file name start")

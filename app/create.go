@@ -3,6 +3,7 @@ package app
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 
 	car "github.com/mohae/carchivum"
@@ -36,10 +37,10 @@ func createZip(destination string, sources ...string) (string, error) {
 	var err error
 
 	logger.Debugf("Creating zip: %s from %s", destination, sources)
-	zipper := car.NewZipArchive()
+	zipper := car.NewZip()
 	zipper.Name = destination
-	zipper.UseFullpath = contour.GetBool("usefullpath")
-	_, err = zipper.CreateFile(destination, sources...)
+	zipper.UseFullpath, _ = strconv.ParseBool(contour.GetBool("usefullpath"))
+	_, err = zipper.Create(destination, sources...)
 	if err != nil {
 		logger.Error(err)
 		return "", err
@@ -76,7 +77,7 @@ func createTar(destination string, sources ...string) (string, error) {
 	// TODO figure out how to convert the incoming time info to time.Time
 	// tballer.NewerMTime = contour.GetTime("newer-mtime")
 	//	tballer.UseFullpath = contour.GetBool("usefullpath")
-	_, err = tballer.CreateFile(destination, sources...)
+	_, err = tballer.Create(destination, sources...)
 	if err != nil {
 		logger.Error(err)
 		return "", err
