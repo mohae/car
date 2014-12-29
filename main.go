@@ -55,7 +55,7 @@ func realMain() int {
 		Version:  Version,
 		Commands: Commands,
 		Args:     args,
-		HelpFunc: cli.BasicHelpFunc(),
+		HelpFunc: cli.BasicHelpFunc(app.Name),
 	}
 
 	// Run the passed command, recieve back a message and error object.

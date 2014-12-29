@@ -85,8 +85,6 @@ func (c *CreateCommand) Run(args []string) int {
 
 // Synopsis provides a precis of the hello command.
 func (c *CreateCommand) Synopsis() string {
-	ret := `creates a compressed archive from the specified source(s) and writes it out to the destination."
-`
-
+	ret := `creates a compressed archive from the specified source(s) and writes it out to the destination."`
 	return ret
 }
