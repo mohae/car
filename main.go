@@ -41,7 +41,7 @@ func main() {
 // enable/disable output, alter it, or alter its output locations. Everything
 // must go to stdout until then.
 func realMain() int {
-	defer app.FlushLog()
+	defer app.CloseLogs()
 
 	// Get the command line args.
 	args := os.Args[1:]

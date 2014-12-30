@@ -1,7 +1,6 @@
 package command
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/mohae/car/app"
@@ -52,11 +51,7 @@ func (c *ExtractCommand) Run(args []string) int {
 		return 1
 	}
 
-	err = app.SetLogging()
-	if err != nil {
-		c.UI.Error(fmt.Sprintf("setup and configuration of application logging failed: %s", err))
-		return 1
-	}
+	app.SetAppLogging()
 
 	// If there aren't at least 2 remaining args error out
 	l := len(filteredArgs)

@@ -1,11 +1,11 @@
 package app
 
 import (
+	"io/ioutil"
 	"time"
 
-	log "github.com/cihub/seelog"
-	car "github.com/mohae/carchivum"
 	"github.com/mohae/contour"
+	log "github.com/mohae/logwrap"
 )
 
 var (
@@ -14,18 +14,18 @@ var (
 
 	// ConfigFile is the name of the configuration file for the application.
 	CfgFilename string = "app.json"
-
-	// LogConfigFile is the name for the log configuration file.
-	LogCfgFilename string = "seelog.xml"
 )
 
 // Variables for configuration entries, or just hard code them.
 var (
-	CfgFile    string = "cfgfile"
-	CfgLogFile string = "logcfgfile"
-	CfgLog     string = "log"
-	CfgFormat  string = "format"
-	CfgType    string = "type"
+	CfgFile     string = "cfgfile"     // configuration filename; format type is inferred from ext.
+	Log         string = "log"         // to log or not to log
+	LogFile     string = "logfile"     // output filename for log output, stderr if empty
+	Verbose            = "Verbose"     // Verbose output bool
+	VerboseFile        = "VerboseFile" // output filename for Verbose output; stdout if empty.
+
+	Format string = "format" // default archive format
+	Type   string = "type"   // default compression type; does not apply to zip archives
 )
 
 var unsetTime time.Time
@@ -46,7 +46,7 @@ func init() {
 	// left blank and must be set.
 	contour.RegisterCfgFilename(CfgFile, CfgFilename)
 
-	//// Alternative way, manually setting the values
+	//// Alternative way of setting configuration file info; manually setting the values
 	//contour.RegisterString("configfilename", ConfigFilename)
 	//contour.RegisterString("configfileext", "json")
 
@@ -69,21 +69,22 @@ func init() {
 	// if this flag doesn't support a shortcode.
 
 	// Logging and output related
-	contour.RegisterBoolFlag(CfgLog, "l", "0", "false", "enable/disable logging")
-	contour.RegisterStringFlag(CfgLogFile, "g", LogCfgFilename, LogCfgFilename, "name of the log configuration file")
+	contour.RegisterBoolFlag(Log, "l", false, "false", "enable/disable logging")
+	contour.RegisterBoolFlag(Verbose, "v", false, "false", "Bool for verbose output")
 
 	// AddSettingAlias sets an alias for the setting.
 	// contour doesn't support alias yet
 	//	contour.AddSettingAlias(CfgLog, "logenabled")
 	initApp()
 
-	// Now that the configuration in
+	// Now that the configuration is set, set app logging. May be overridden later.
+	SetAppLogging()
 }
 
 // InitApp is the best place to add custom defaults for your application,
 func initApp() {
-	contour.RegisterStringFlag(CfgFormat, "f", "tar", "tar", "create an archive using the tar format")
-	contour.RegisterStringFlag(CfgType, "t", "gzip", "gzip", "create an archive using the zip format")
+	contour.RegisterStringFlag(Format, "f", "tar", "tar", "create an archive using the tar format")
+	contour.RegisterStringFlag(Type, "t", "gzip", "gzip", "create an archive using the zip format")
 
 	// Create operation modifiers
 	contour.RegisterIntFlag("owner", "", 0, "0", "force UID as owner for added files")
@@ -105,7 +106,7 @@ func initApp() {
 	//	contour.RegisterBoolFlag("no-same-permissions", "", false, "do not extract permissions information")
 
 	// Create Operation Local file selection
-	contour.RegisterBoolFlag("delete-files", "D", "0", "false", "remove files after adding them to the archive")
+	contour.RegisterBoolFlag("delete-files", "D", false, "false", "remove files after adding them to the archive")
 	contour.RegisterStringFlag("exclude", "", "", "", "exclude files, given as a PATTERN")
 	contour.RegisterStringFlag("exclude-ext", "e", "", "", "exclude files with EXTENSIONS")
 	contour.RegisterStringFlag("exclude-anchored", "", "", "", "exclude patterns match file name start")
@@ -139,7 +140,15 @@ func SetCfg() error {
 	//  If this is an interactive application, preference changes would
 	//    also override certain settings. It may necessitate an additional
 	//    flag or two.
-	return contour.SetCfg()
+	err := contour.SetCfg()
+	if err != nil {
+		log.Print(err)
+		return err
+	}
+
+	// setting the cfg may have altered logging information. Set it.
+	SetAppLogging()
+	return nil
 }
 
 // SetAppLog sets the logger for package loggers and allow for custom-
@@ -150,21 +159,24 @@ func SetCfg() error {
 // caller should be SetLog(). If you are going to call this from elsewhere,
 // first make sure that log is enabled.
 //
-// This uses seelog.
 func SetAppLogging() {
-	contour.UseLogger(logger)
-	car.UseLogger(logger)
+	if !contour.GetBool(Log) {
+		log.SetOutput(ioutil.Discard)
+		goto verbose
+	}
+	// get the logfilename, if it's not set, use stderr
+	log.SetOutputFile(contour.GetString(LogFile))
+
+verbose:
+	if !contour.GetBool(Verbose) {
+		log.SetVerboseOutput(ioutil.Discard)
+		return
+	}
+	log.SetOutputFile(contour.GetString(VerboseFile))
 	return
 }
 
-func DisableAppLogging() {
-	contour.DisableLog()
-	car.DisableLog()
-	return
-}
-
-func AppFlushLog() {
-	contour.FlushLog()
-	car.FlushLog()
-	log.Flush()
+// CloseLogs closes the logfiles; if there are any open
+func CloseLogs() {
+	log.CloseOutput()
 }

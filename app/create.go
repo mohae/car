@@ -3,11 +3,12 @@ package app
 import (
 	"fmt"
 	"os"
-	"strconv"
+	_ "strconv"
 	"strings"
 
 	car "github.com/mohae/carchivum"
 	"github.com/mohae/contour"
+	log "github.com/mohae/logwrap"
 )
 
 func Create(destination string, sources ...string) (string, error) {
@@ -16,17 +17,17 @@ func Create(destination string, sources ...string) (string, error) {
 
 	fmt.Printf("\nCreate %q from %v\n", destination, sources)
 
-	switch contour.GetString(CfgFormat) {
+	switch contour.GetString(Format) {
 	case "tar":
 		message, err = createTar(destination, sources...)
 	case "zip":
 		message, err = createZip(destination, sources...)
 	default:
-		err = fmt.Errorf("%s not supported", contour.GetString(CfgFormat))
+		err = fmt.Errorf("%s not supported", contour.GetString(Format))
 	}
 
 	if err != nil {
-		logger.Error(err)
+		log.Print(err)
 		return "", err
 	}
 
@@ -36,13 +37,13 @@ func Create(destination string, sources ...string) (string, error) {
 func createZip(destination string, sources ...string) (string, error) {
 	var err error
 
-	logger.Debugf("Creating zip: %s from %s", destination, sources)
+	log.Logf("Creating zip: %s from %s", destination, sources)
 	zipper := car.NewZip()
 	zipper.Name = destination
-	zipper.UseFullpath, _ = strconv.ParseBool(contour.GetBool("usefullpath"))
+	zipper.UseFullpath = contour.GetBool("usefullpath")
 	_, err = zipper.Create(destination, sources...)
 	if err != nil {
-		logger.Error(err)
+		log.Print(err)
 		return "", err
 	}
 
@@ -52,7 +53,7 @@ func createZip(destination string, sources ...string) (string, error) {
 func createTar(destination string, sources ...string) (string, error) {
 	var err error
 
-	logger.Debugf("Creating tar: %s from %s", destination, sources)
+	log.Logf("Creating tar: %s from %s", destination, sources)
 	tballer := car.NewTar()
 	tballer.Name = destination
 	tballer.Owner = contour.GetInt("owner")
@@ -79,7 +80,7 @@ func createTar(destination string, sources ...string) (string, error) {
 	//	tballer.UseFullpath = contour.GetBool("usefullpath")
 	_, err = tballer.Create(destination, sources...)
 	if err != nil {
-		logger.Error(err)
+		log.Print(err)
 		return "", err
 	}
 
