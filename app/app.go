@@ -124,7 +124,7 @@ func initApp() {
 	//	contour.RegisterFlagAlias("same-permissions", "preserve-permissions")
 }
 
-// InitConfig initialized the application's configuration. When the config is
+// SetCfg initialized the application's configuration. When the config is
 // has been initialized, the preset-enivronment variables, application
 // defaults, and your application's configuration file, should it have one,
 // will all be merged according to the setting properties.
