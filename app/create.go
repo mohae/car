@@ -8,7 +8,7 @@ import (
 
 	car "github.com/mohae/carchivum"
 	"github.com/mohae/contour"
-	log "github.com/mohae/logwrap"
+	jww "github.com/spf13/jwalterweatherman"
 )
 
 func Create(destination string, sources ...string) (string, error) {
@@ -27,7 +27,7 @@ func Create(destination string, sources ...string) (string, error) {
 	}
 
 	if err != nil {
-		log.Print(err)
+		jww.ERROR.Print(err)
 		return "", err
 	}
 
@@ -37,13 +37,13 @@ func Create(destination string, sources ...string) (string, error) {
 func createZip(destination string, sources ...string) (string, error) {
 	var err error
 
-	log.Logf("Creating zip: %s from %s", destination, sources)
+	jww.INFO.Printf("Creating zip: %s from %s", destination, sources)
 	zipper := car.NewZip()
 	zipper.Name = destination
 	zipper.UseFullpath = contour.GetBool("usefullpath")
 	_, err = zipper.Create(destination, sources...)
 	if err != nil {
-		log.Print(err)
+		jww.ERROR.Print(err)
 		return "", err
 	}
 
@@ -53,7 +53,7 @@ func createZip(destination string, sources ...string) (string, error) {
 func createTar(destination string, sources ...string) (string, error) {
 	var err error
 
-	log.Logf("Creating tar: %s from %s", destination, sources)
+	jww.INFO.Printf("Creating tar: %s from %s", destination, sources)
 	tballer := car.NewTar()
 	tballer.Name = destination
 	tballer.Owner = contour.GetInt("owner")
@@ -80,7 +80,7 @@ func createTar(destination string, sources ...string) (string, error) {
 	//	tballer.UseFullpath = contour.GetBool("usefullpath")
 	_, err = tballer.Create(destination, sources...)
 	if err != nil {
-		log.Print(err)
+		jww.ERROR.Print(err)
 		return "", err
 	}
 

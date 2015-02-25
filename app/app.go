@@ -1,11 +1,10 @@
 package app
 
 import (
-	"io/ioutil"
 	"time"
 
 	"github.com/mohae/contour"
-	log "github.com/mohae/logwrap"
+	jww "github.com/spf13/jwalterweatherman"
 )
 
 var (
@@ -142,7 +141,7 @@ func SetCfg() error {
 	//    flag or two.
 	err := contour.SetCfg()
 	if err != nil {
-		log.Print(err)
+		jww.ERROR.Print(err)
 		return err
 	}
 
@@ -161,22 +160,10 @@ func SetCfg() error {
 //
 func SetAppLogging() {
 	if !contour.GetBool(Log) {
-		log.SetOutput(ioutil.Discard)
-		goto verbose
+		jww.DiscardLogging()
 	}
 	// get the logfilename, if it's not set, use stderr
-	log.SetOutputFile(contour.GetString(LogFile))
-
-verbose:
-	if !contour.GetBool(Verbose) {
-		log.SetVerboseOutput(ioutil.Discard)
-		return
+	if contour.GetString(LogFile) != "" {
+		jww.SetLogFile(contour.GetString(LogFile))
 	}
-	log.SetOutputFile(contour.GetString(VerboseFile))
-	return
-}
-
-// CloseLogs closes the logfiles; if there are any open
-func CloseLogs() {
-	log.CloseOutput()
 }

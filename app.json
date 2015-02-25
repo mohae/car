@@ -1,5 +1,6 @@
 {
 	"log":  true,
+	"logfile": "car.log",
 	"archiveformat": "tar",
 	"compressiontype": "gzip"
 }
