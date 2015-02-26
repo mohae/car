@@ -3,6 +3,13 @@ car
 
 Car was created so I could have a command-line tool for creating and extracting compressed archives on Windows.
 
+### Note about using on Windows
+When extracting an archive, the ownership information will probably not exist, which can cause an issue when attempting to do things like change ownership, change permissions, or delete the extracted files. 
+
+The solution to this is to log in on the administrator account and perform the desired actions there. 
+
+Upgrading to administrator permissions on your currently logged in account is not sufficient.
+
 ## About 
 Car is a cross platform tool for working with compressed archives. Car is not meant to be a replacement for `tar` and is not necessarily tape/archive focused. Where possible, flags have been made to be consistent with `tar`'s flags, but not all of `tar`'s flags will be supported. Some flags may not be implemented in the exact manner as `tar`'s, but consistency with `tar`, where possible, is the goal.
 
