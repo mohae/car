@@ -1,20 +1,53 @@
 car
 ===
 
-Car is a tool for working with compressed archives. Car is not meant to be a replacement for `tar` and is not necessarily tape/archive focused. Where possible, flags have been made to be consistent with `tar`'s flags, but not all of `tar`'s flags will be supported. Some flags may not be implemented in the exact manner as `tar`'s, but consistency with `tar`, where possible, is the goal.
+Car was created so I could have a command-line tool for creating and extracting compressed archives on Windows.
+
+## About 
+Car is a cross platform tool for working with compressed archives. Car is not meant to be a replacement for `tar` and is not necessarily tape/archive focused. Where possible, flags have been made to be consistent with `tar`'s flags, but not all of `tar`'s flags will be supported. Some flags may not be implemented in the exact manner as `tar`'s, but consistency with `tar`, where possible, is the goal.
 
 Even though `zip` is supported, it is minimally supported. Most options are for `tar` archives and compressed files only, not for `zip`.
 
-Car is meant to be a simple tool, which helps me develope other things, including [Quine](https://github.com/mohae/quine), my cli application template, [Contour](https://github.com/mohae/contour), my configuration management package, [my cli fork](https://github.com/mohae/cli) of [mitchellh's cli package](https://github.com/mitchellh/cli), which allows me to work on some additional functionality before proposing the changes on Mitchell's CLI package. Due to Car's flag requirements, I have a fork of [ogier's pflage](https://github.com/ogier/pflag), [mohae's pflag](https://github.com/mohae/pflag) that adds support for time flags.
+Car also is a development tool for working on the underlying archiving package, [carchivum](https://github.com/mohae/carchivum).
 
-Car also is a development tool for working on the underlying archiving package.
+## Compiling
+At this point, no pre-compiled executable is available. One will need to have [Go](https://golang.org) and Git installed in order to compile Car.
 
-Lastly, `car` will be cross-platform in the near future, meaning I can have a command-line tool for creating archives and compressing things on Windows.
+Clone the repo:
+    git clone https://github.com/mohae/car
 
-## Car Options
-Car implements POSIX style options, seeking to be consistent with `tar`, when possible. Car does not support everything `tar` does and may support options that `tar` does not support. For `car` operations that are consistent with `tar`, the `tar` options are implemented, at minimum; e.g., `-c` and `--create` for creating a new archive.
+Switch to the repo directory:
 
-Car may implement additional options or additional aliases to existing options,
+    cd /path/to/car/repo
+
+Get the dependencies:
+
+    go get -u
+
+Compile
+
+    go build
+
+Move the executable to a location in your PATH.
+
+## Usage
+### Create an archive
+To create an archive
+
+    car create archive-name.tgz path/to/archive
+
+Car, by default will create a gzip'd tar archive.
+
+To create a zip archive:
+
+    car create -format=zip archive-name.zip path/to/archive
+
+### Extract an archive
+Car will check the specified file to see what format it is in and extract the archive using the appropriate format. Currently, it assumes that any compressed files that aren't in the _zip_ format are tarballs, e.g. a file compressed with `gzip` contains a tarball.
+
+The destination path is optional. If a destination is specified, the extracted files will be created within the specified destinatino directory, otherwise they will be extracted to the current working directory.
+
+    car extract source.tgz [path/to/dest] 
 
 ### Operations
 
