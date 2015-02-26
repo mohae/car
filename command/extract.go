@@ -1,6 +1,7 @@
 package command
 
 import (
+	"os"
 	"strings"
 
 	"github.com/mohae/car/app"
@@ -67,7 +68,17 @@ func (c *ExtractCommand) Run(args []string) int {
 	}
 
 	// Run the command in the package.
-	message, err = app.Extract(filteredArgs[0], filteredArgs[1])
+	if len(filteredArgs) == 1 {
+		wd, err := os.Getwd()
+		if err != nil {
+			c.UI.Error(err.Error())
+			return 1
+		}
+		message, err = app.Extract(filteredArgs[0], wd)
+	} else {
+		message, err = app.Extract(filteredArgs[0], filteredArgs[1])
+	}
+
 	if err != nil {
 		c.UI.Error(err.Error())
 		return 1
