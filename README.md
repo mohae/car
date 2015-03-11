@@ -111,10 +111,18 @@ NOT IMPLEMENTED:
 ```
 
 ## Status
-Create command for creating a compressed archvie file from a list of sources is working:
-  * suppports gzip/tar
-  * supports zip
-  * supports fullpath/relative path
-  * supports logging
+Currently supported functionality:
+  * tar archives, optionally compressed with:
+    * gzip (default)
+    * lzw
+    * lz4
+    * bzip2 (extract only)
+  * zip archives
+  * logging
 
 Additional functionality will be added as [Carchivum](https://github.com/mohae/carchivum) functionality expands.
+
+## Notes:  
+* Currently, directories are created with `0744` permission. There may be support for properly setting directory permissions.
+* Symlinks are not followed/archived.
+* Hidden files and directories are not supported.
