@@ -43,7 +43,7 @@ func init() {
 	// also sets the ConfigFile format automatically,based on the
 	// extension, if it can be determined. If it cannot, the extension is
 	// left blank and must be set.
-	contour.RegisterCfgFilename(CfgFile, CfgFilename)
+	contour.RegisterCfgFile(CfgFile, CfgFilename)
 
 	//// Alternative way of setting configuration file info; manually setting the values
 	//contour.RegisterString("configfilename", ConfigFilename)
