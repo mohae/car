@@ -55,6 +55,17 @@ func createTar(destination string, sources ...string) (string, error) {
 
 	jww.INFO.Printf("Creating tar: %s from %s", destination, sources)
 	tballer := car.NewTar()
+	t := contour.GetString("type")
+	if t != "" {
+		f := car.FormatFromString(t)
+		if f == car.UnsupportedFmt {
+			fmt.Errorf("Unuspported format: %s", t)
+			jww.ERROR.Print(err)
+			return "", err
+		}
+		tballer.Format = f
+	}
+	fmt.Println(t)
 	tballer.Name = destination
 	tballer.Owner = contour.GetInt("owner")
 	tballer.Group = contour.GetInt("group")
