@@ -18,7 +18,7 @@ func Create(destination string, sources ...string) (string, error) {
 	fmt.Printf("\nCreate %q from %v\n", destination, sources)
 
 	switch contour.GetString(Format) {
-	case "tar", "lz4", "LZ4", "bz2", "lzw", "LZW":
+	case "tar":
 		message, err = createTar(destination, sources...)
 	case "zip":
 		message, err = createZip(destination, sources...)
