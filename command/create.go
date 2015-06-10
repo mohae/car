@@ -38,7 +38,7 @@ create supports the following flags(Type):
 // to append to hello.
 func (c *CreateCommand) Run(args []string) int {
 	// set up the command flags
-	contour.SetFlagSetUsage(func() {
+	contour.SetUsage(func() {
 		c.UI.Output(c.Help())
 	})
 
