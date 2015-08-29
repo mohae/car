@@ -39,7 +39,7 @@ func createZip(destination string, sources ...string) (string, error) {
 
 	jww.INFO.Printf("Creating zip: %s from %s", destination, sources)
 	zipper := car.NewZip()
-	zipper.Name = destination
+	zipper.Car.Name = destination
 	zipper.UseFullpath = contour.GetBool("usefullpath")
 	_, err = zipper.Create(destination, sources...)
 	if err != nil {
