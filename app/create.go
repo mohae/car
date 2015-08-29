@@ -69,7 +69,7 @@ func createTar(destination string, sources ...string) (string, error) {
 	tballer.Name = destination
 	tballer.Owner = contour.GetInt("owner")
 	tballer.Group = contour.GetInt("group")
-	tballer.Mode = os.FileMode(contour.GetInt64("mode"))
+	tballer.FileMode = os.FileMode(contour.GetInt64("mode"))
 
 	//	tabller.Exclude = contour.GetString("exclude")
 	tballer.ExcludeAnchored = contour.GetString("exclude-anchored")
