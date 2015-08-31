@@ -1,6 +1,7 @@
 package app
 
 import (
+	"log"
 	"time"
 
 	"github.com/mohae/contour"
@@ -159,6 +160,15 @@ func SetCfg() error {
 // first make sure that log is enabled.
 //
 func SetAppLogging() {
+	// set the flags
+	jww.TRACE.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	jww.DEBUG.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	jww.INFO.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	jww.WARN.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	jww.ERROR.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	jww.CRITICAL.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	jww.FATAL.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+
 	if !contour.GetBool(Log) {
 		jww.DiscardLogging()
 	}
