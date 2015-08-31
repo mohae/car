@@ -32,8 +32,10 @@ var unsetTime time.Time
 
 // set-up the application defaults and let contour know about the app.
 // Setting also saves them to their relative environment variable.
+//
+// used shortflags: D, e, f, i, l, O, t, v
 func init() {
-	//
+	// configure contour
 	contour.RegisterCfgFile(CfgFile, CfgFilename)
 	contour.SetName(Name)
 	contour.SetUseEnv(true)
