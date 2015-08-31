@@ -48,12 +48,12 @@ func init() {
 	// Create Operation Local file selection
 	contour.RegisterBoolFlag("delete-files", "D", false, "false", "remove files after adding them to the archive")
 	contour.RegisterStringFlag("exclude", "", "", "", "exclude files, given as a PATTERN")
-	contour.RegisterStringFlag("exclude-ext", "e", "", "", "exclude files with EXTENSIONS")
-	contour.RegisterStringFlag("exclude-anchored", "", "", "", "exclude patterns match file name start")
+	contour.RegisterStringFlag("exclude_ext", "e", "", "", "exclude files with EXTENSIONS")
+	contour.RegisterStringFlag("exclude_anchored", "", "", "", "exclude patterns match file name start")
 	contour.RegisterStringFlag("include", "", "", "", "include files, given as a PATTERN")
-	contour.RegisterStringFlag("include-ext", "i", "", "", "include files with EXTENSIONS")
-	contour.RegisterStringFlag("include-anchored", "", "", "", "include patterns match file name start")
-	contour.RegisterStringFlag("outputdir", "O", "", "", "output directory for extract")
+	contour.RegisterStringFlag("include_ext", "i", "", "", "include files with EXTENSIONS")
+	contour.RegisterStringFlag("include_anchored", "", "", "", "include patterns match file name start")
+	contour.RegisterStringFlag("output_dir", "O", "", "", "output directory for extract")
 	//// Extract Operation Modifiers
 	//	contour.RegisterBoolFlag("keep-old-files", "k", false, "don't replace existing files when extracting")
 	//	contour.RegisterBoolFlag("keep-newer-files", "", false, "don't replace existing files that are newer than their archive copies")
