@@ -33,7 +33,7 @@ func createZip(dst string, sources ...string) (string, error) {
 	zipper := car.NewZip()
 	zipper.Car.Name = dst
 	zipper.UseFullpath = contour.GetBool("usefullpath")
-	_, err := zipper.Create(dst, sources...)
+	_, err := zipper.Create(sources...)
 	if err != nil {
 		jww.ERROR.Print(err)
 		return "", err
