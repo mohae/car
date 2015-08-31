@@ -6,11 +6,11 @@ import (
 	car "github.com/mohae/carchivum"
 )
 
-func Extract(src, dst string) (string, error) {
-	fmt.Printf("\nExtract %q to %v\n", src, dst)
-	err := car.Extract(src, dst)
+func Extract(src string) (string, error) {
+	fmt.Printf("\nExtract %q", src)
+	err := car.Extract(src)
 	if err != nil {
 		return "", err
 	}
-	return fmt.Sprintf("%s extracted to %s", src, dst), nil
+	return fmt.Sprintf("%s extracted", src), nil
 }

@@ -1,7 +1,6 @@
 package command
 
 import (
-	"os"
 	"strings"
 
 	"github.com/mohae/car/app"
@@ -43,7 +42,6 @@ func (c *ExtractCommand) Run(args []string) int {
 	contour.SetUsage(func() {
 		c.UI.Output(c.Help())
 	})
-
 	// Filter the flags from the args and update the config with them.
 	// The args remaining after being filtered are returned.
 	filteredArgs, err := contour.FilterArgs(args)
@@ -51,39 +49,17 @@ func (c *ExtractCommand) Run(args []string) int {
 		c.UI.Error(err.Error())
 		return 1
 	}
-
 	app.SetAppLogging()
-
-	// If there aren't at least 2 remaining args error out
-	l := len(filteredArgs)
-	var message string
-	switch l {
-	case 0:
-		message = "to extract an archive, a source must be specified"
-	}
-
-	if message != "" {
-		c.UI.Error("Error: " + message)
+	if len(filteredArgs) == 0 {
+		c.UI.Error("Error: to extract an archive, a source must be specified")
 		return 1
 	}
-
-	// Run the command in the package.
-	if len(filteredArgs) == 1 {
-		wd, err := os.Getwd()
-		if err != nil {
-			c.UI.Error(err.Error())
-			return 1
-		}
-		message, err = app.Extract(filteredArgs[0], wd)
-	} else {
-		message, err = app.Extract(filteredArgs[0], filteredArgs[1])
-	}
-
+	// it is assumed that the first arg is the source, anything else is ignored
+	message, err := app.Extract(filteredArgs[0])
 	if err != nil {
 		c.UI.Error(err.Error())
 		return 1
 	}
-
 	c.UI.Output(message)
 	return 0
 }
