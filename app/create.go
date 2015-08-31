@@ -30,8 +30,7 @@ func Create(dst string, sources ...string) (string, error) {
 
 func createZip(dst string, sources ...string) (string, error) {
 	jww.INFO.Printf("Creating zip: %s from %s", dst, sources)
-	zipper := car.NewZip()
-	zipper.Car.Name = dst
+	zipper := car.NewZip(dst)
 	zipper.UseFullpath = contour.GetBool("usefullpath")
 	_, err := zipper.Create(sources...)
 	if err != nil {
@@ -43,7 +42,7 @@ func createZip(dst string, sources ...string) (string, error) {
 
 func createTar(dst string, sources ...string) (string, error) {
 	jww.INFO.Printf("Creating tar: %s from %s", dst, sources)
-	tballer := car.NewTar()
+	tballer := car.NewTar(dst)
 	t := contour.GetString("type")
 	if t != "" {
 		f := car.FormatFromString(t)
@@ -54,7 +53,6 @@ func createTar(dst string, sources ...string) (string, error) {
 		}
 		tballer.Format = f
 	}
-	tballer.Name = dst
 	tballer.Owner = contour.GetInt("owner")
 	tballer.Group = contour.GetInt("group")
 	tballer.FileMode = os.FileMode(contour.GetInt64("mode"))
