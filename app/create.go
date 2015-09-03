@@ -8,6 +8,7 @@ import (
 
 	car "github.com/mohae/carchivum"
 	"github.com/mohae/contour"
+	"github.com/mohae/magicnum"
 	jww "github.com/spf13/jwalterweatherman"
 )
 
@@ -45,9 +46,14 @@ func createTar(dst string, sources ...string) (string, error) {
 	tballer := car.NewTar(dst)
 	t := contour.GetString("type")
 	if t != "" {
-		f := car.FormatFromString(t)
-		if f == car.UnsupportedFmt {
-			err := fmt.Errorf("Unuspported format: %s", t)
+		f := magicnum.FormatFromString(t)
+		if f == magicnum.Unknown {
+			err := fmt.Errorf("unknown format: %s", t)
+			jww.ERROR.Print(err)
+			return "", err
+		}
+		if !car.IsSupported(f) {
+			err := fmt.Errorf("unsupported format: %s is not supported", f)
 			jww.ERROR.Print(err)
 			return "", err
 		}
