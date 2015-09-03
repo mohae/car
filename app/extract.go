@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	car "github.com/mohae/carchivum"
+	"github.com/mohae/contour"
 )
 
 func Extract(src string) (string, error) {
@@ -15,9 +16,12 @@ func Extract(src string) (string, error) {
 	if ext == ".zip" {
 		z := car.NewZip(src)
 		z.OutDir = contour.GetString("output_dir")
-		return z.Extract()
+		err := z.Extract()
+
+	} else {
+		t := car.NewTar(src)
+		t.OutDir = contour.GetString("output_dir")
+		err := t.Extract()
 	}
-	t := car.NewTar(src)
-	t.OutDir = contour.GetString("output_dir")
-	return t.Extract()
+
 }
