@@ -17,11 +17,10 @@ func Extract(src string) (string, error) {
 		z := car.NewZip(src)
 		z.OutDir = contour.GetString("output_dir")
 		err := z.Extract()
-
-	} else {
-		t := car.NewTar(src)
-		t.OutDir = contour.GetString("output_dir")
-		err := t.Extract()
+		return "", err
 	}
-
+	t := car.NewTar(src)
+	t.OutDir = contour.GetString("output_dir")
+	err := t.Extract()
+	return "", err
 }
