@@ -68,12 +68,10 @@ Supported operations:
 
 Operation modifiers:
 
-create:
+__create:__
   
 Local file selection:
-```  
-    --exclude=PATTERN           exclude files, given as a PATTERN
-    --exclude-ext=[EXTENSIONS]  exclude files with EXTENSIONS
+```  --exclude-ext=[EXTENSIONS]  exclude files with EXTENSIONS
     --exclude-anchored          exclude patterns match file name start
     --include=PATTERN           include files, given as a PATTERN
     --include-ext=[EXTENSIONS]  include files with EXTENSIONS
@@ -84,6 +82,8 @@ TODO document flags
 
 
 __Not Implemented:__
+--exclude=PATTERN           exclude files, given as a PATTERN
+    
   -D, --remove-files              remove files after adding them to the archive
       --delete-files              alias to -D
   -k, --keep-old-files            don't replace existing files when extracting
