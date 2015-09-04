@@ -74,7 +74,6 @@ Local file selection:
 ```  
     --exclude-ext=[EXTENSIONS]  exclude files with EXTENSIONS
     --exclude-anchored          exclude patterns match file name start
-    --include=PATTERN           include files, given as a PATTERN
     --include-ext=[EXTENSIONS]  include files with EXTENSIONS
     --include-anchored          include patterns match file name start
 ```
@@ -83,9 +82,9 @@ TODO document flags
 
 
 __Not Implemented:__
-  
+```  
        --exclude=PATTERN           exclude files, given as a PATTERN  
-    
+       --include=PATTERN           include files, given as a PATTERN  
    -D, --remove-files              remove files after adding them to the archive  
        --delete-files              alias to -D  
    -k, --keep-old-files            don't replace existing files when extracting  
@@ -106,7 +105,7 @@ __Not Implemented:__
     --no-wildcards              patterns do not use wildcards  
     --newer-file=FILENAME       only store files newer than the DATE for  
                                 FILENAME
-
+```
 ## Status
 Currently supported functionality:  
   * tar archives, optionally compressed with:  
