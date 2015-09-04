@@ -71,7 +71,8 @@ Operation modifiers:
 __create:__
   
 Local file selection:
-```  --exclude-ext=[EXTENSIONS]  exclude files with EXTENSIONS
+```  
+    --exclude-ext=[EXTENSIONS]  exclude files with EXTENSIONS
     --exclude-anchored          exclude patterns match file name start
     --include=PATTERN           include files, given as a PATTERN
     --include-ext=[EXTENSIONS]  include files with EXTENSIONS
@@ -82,40 +83,41 @@ TODO document flags
 
 
 __Not Implemented:__
---exclude=PATTERN           exclude files, given as a PATTERN
+  
+       --exclude=PATTERN           exclude files, given as a PATTERN  
     
-  -D, --remove-files              remove files after adding them to the archive
-      --delete-files              alias to -D
-  -k, --keep-old-files            don't replace existing files when extracting
-      --keep-newer-files          don't replace existing files that are newer
-                                than their archive copies
-      --overwrite                 overwrite existing files when extracting
-      --atime-preserve            don't change access time on dumped files
-  -m, --modification-time         don't extract file modified time
-      --same-owner                try extracting files with the same ownership
-      --no-same-owner             extract files as yourself
-      --numeric-owner             always use numbers for user/group names
-  -p, --same-permissions          extract permissions information
-      --no-same-permissions       do not extract permissions information
-      --preserve-permissions      same as -p
-  -M, --newer-mtime=DATE          only stores files modified since DATE
+   -D, --remove-files              remove files after adding them to the archive  
+       --delete-files              alias to -D  
+   -k, --keep-old-files            don't replace existing files when extracting  
+       --keep-newer-files          don't replace existing files that are newer  
+                                   than their archive copies  
+       --overwrite                 overwrite existing files when extracting  
+       --atime-preserve            don't change access time on dumped files  
+   -m, --modification-time         don't extract file modified time  
+       --same-owner                try extracting files with the same ownership  
+       --no-same-owner             extract files as yourself  
+       --numeric-owner             always use numbers for user/group names  
+   -p, --same-permissions          extract permissions information  
+       --no-same-permissions       do not extract permissions information  
+       --preserve-permissions      same as -p  
+   -M, --newer-mtime=DATE          only stores files modified since DATE  
 
-    --wildcards                 patterns use wildcards
-    --no-wildcards              patterns do not use wildcards
-    --newer-file=FILENAME       only store files newer than the DATE for
+    --wildcards                 patterns use wildcards  
+    --no-wildcards              patterns do not use wildcards  
+    --newer-file=FILENAME       only store files newer than the DATE for  
                                 FILENAME
 
 ## Status
-Currently supported functionality:
-  * tar archives, optionally compressed with:
-    * gzip (default)
-    * lz4
-    * bzip2 (extract only)
-  * zip archives
+Currently supported functionality:  
+  * tar archives, optionally compressed with:  
+    * gzip (default)  
+    * lz4  
+    * bzip2 (extract only)  
+  * zip archives  
 
-Additional functionality will be added as [Carchivum](https://github.com/mohae/carchivum) functionality expands.
+Additional functionality will be added as [Carchivum](https://github.com/mohae/carchivum) functionality expands.  
 
 ## Notes:  
-* Currently, directories are created with `0744` permission. There may be support for properly setting directory permissions.
-* Symlinks are not followed/archived.
-* Hidden files and directories are not supported.
+* Currently, directories are created with `0744` permission. There may be support for properly setting directory permissions.  
+* Symlinks are not followed/archived.  
+* Hidden files and directories are not supported.  
