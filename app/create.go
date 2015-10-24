@@ -8,7 +8,7 @@ import (
 
 	car "github.com/mohae/carchivum"
 	"github.com/mohae/contour"
-	"github.com/mohae/magicnum"
+	magicnum "github.com/mohae/magicnum/mcompress"
 	jww "github.com/spf13/jwalterweatherman"
 )
 
