@@ -1,5 +1,6 @@
 car
 ===
+[![Build Status](https://travis-ci.org/mohae/car.png)](https://travis-ci.org/mohae/car)
 
 Car was created so I could have a cross platform command-line tool for creating and extracting compressed archives. I use it on various Linux distros and Windows.
 
