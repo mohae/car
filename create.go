@@ -1,76 +1,64 @@
-package app
+package main
 
 import (
 	"fmt"
-	"os"
 	_ "strconv"
 	"strings"
 
 	car "github.com/mohae/carchivum"
 	"github.com/mohae/contour"
-	magicnum "github.com/mohae/magicnum/mcompress"
-	jww "github.com/spf13/jwalterweatherman"
+	log "github.com/mohae/ezlog"
+	magicnum "github.com/mohae/magicnum/compress"
 )
 
 func Create(dst string, sources ...string) (string, error) {
-	var err error
-	var message string
-	fmt.Printf("\nCreate %q from %v\n", dst, sources)
-	switch contour.GetString(Format) {
+	switch contour.String(Format) {
 	case "zip":
-		message, err = createZip(dst, sources...)
+		return createZip(dst, sources...)
+	case "tar":
+		return createTar(dst, sources...)
 	default:
-		message, err = createTar(dst, sources...)
+		return "", fmt.Errorf("create %s: unknown archive format: %s", dst, contour.String(Format))
 	}
-	if err != nil {
-		jww.ERROR.Print(err)
-		return "", err
-	}
-	return message, nil
 }
 
 func createZip(dst string, sources ...string) (string, error) {
-	jww.INFO.Printf("Creating zip: %s from %s", dst, sources)
 	zipper := car.NewZip(dst)
-	zipper.UseFullpath = contour.GetBool("usefullpath")
+	zipper.UseFullpath = contour.Bool("abspath")
 	_, err := zipper.Create(sources...)
 	if err != nil {
-		jww.ERROR.Print(err)
+		log.Error(err)
 		return "", err
 	}
 	return zipper.Message(), nil
 }
 
 func createTar(dst string, sources ...string) (string, error) {
-	jww.INFO.Printf("Creating tar: %s from %s", dst, sources)
 	tballer := car.NewTar(dst)
-	t := contour.GetString("type")
+	t := contour.String("type")
 	if t != "" {
-		f := magicnum.FormatFromString(t)
+		f := magicnum.ParseFormat(t)
 		if f == magicnum.Unknown {
-			err := fmt.Errorf("unknown format: %s", t)
-			jww.ERROR.Print(err)
+			err := fmt.Errorf("unknown compression format: %s", t)
+			log.Error(err)
 			return "", err
 		}
 		if !car.IsSupported(f) {
-			err := fmt.Errorf("unsupported format: %s is not supported", f)
-			jww.ERROR.Print(err)
+			err := fmt.Errorf("unsupported compressiong format: %s is not supported", f)
+			log.Error(err)
 			return "", err
 		}
 		tballer.Format = f
 	}
-	tballer.Owner = contour.GetInt("owner")
-	tballer.Group = contour.GetInt("group")
-	tballer.FileMode = os.FileMode(contour.GetInt64("mode"))
 	//	tabller.Exclude = contour.GetString("exclude")
-	tballer.ExcludeAnchored = contour.GetString("exclude-anchored")
-	temp := contour.GetString("exclude-ext")
+	tballer.ExcludeAnchored = contour.String("exclude_anchored")
+	temp := contour.String("exclude_ext")
 	if temp != "" {
 		tballer.ExcludeExt = strings.Split(temp, ",")
 		tballer.ExcludeExtCount = len(tballer.ExcludeExt)
 	}
-	tballer.IncludeAnchored = contour.GetString("include-anchored")
-	temp = contour.GetString("include-ext")
+	tballer.IncludeAnchored = contour.String("include_anchored")
+	temp = contour.String("include_ext")
 	if temp != "" {
 		tballer.IncludeExt = strings.Split(temp, ",")
 		tballer.IncludeExtCount = len(tballer.IncludeExt)
@@ -80,7 +68,7 @@ func createTar(dst string, sources ...string) (string, error) {
 	//	tballer.UseFullpath = contour.GetBool("usefullpath")
 	_, err := tballer.Create(sources...)
 	if err != nil {
-		jww.ERROR.Print(err)
+		log.Error(err)
 		return "", err
 	}
 	return tballer.Message(), nil
